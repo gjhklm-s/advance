@@ -350,6 +350,7 @@ text-align: center;
     >Indian Players</button>
 		
 
+
         <div id="playersList"></div>
         <br>
         <h2>Unsold Players</h2>
@@ -502,7 +503,14 @@ text-align: center;
 		function showPlayers(category) {
             document.getElementById("playersList").innerHTML =  `<h2>${category.replace(/([A-Z])/g, ' $1')}</h2><ol>` + players[category].map(player => `<li>${player}</li>`).join('') + `</ol>`;
         }
-        
+        const container = document.getElementById("playersList");
+
+players.forEach(player => {
+    const div = document.createElement("div");
+    div.innerHTML = `<p>${player.name}</p><img src="${player.image}" alt="${player.name}" width="200">`;
+    container.appendChild(div);
+});
+
         let teams = JSON.parse(localStorage.getItem("teams")) || {
             "Sujin": { players: [], totalSpent: 0, remainingBudget: 150 },
             "Ajin": { players: [], totalSpent: 0, remainingBudget: 150 },
