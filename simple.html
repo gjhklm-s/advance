@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Player Selection</title>
+    <style>
+        /* General Body Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+        }
+
+        /* Container Styling */
+        .container {
+            width: 90%;
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Button Styling */
+        button {
+            background: linear-gradient(135deg, #ff7eb3, #ff758c);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 25px;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #ff758c, #ff7eb3);
+            transform: scale(1.05);
+        }
+
+        /* Password Input */
+        input[type="password"] {
+            padding: 10px;
+            width: 80%;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        /* Modal Styling */
+        #imageModal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Image inside Modal */
+        .modal-content img {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        /* Player Info Styling (Multiline Text Above Image) */
+        .player-info {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            background: linear-gradient(135deg, #f3f3f3, #e0e0e0);
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 15px;
+            text-align: left;
+            white-space: pre-line; /* Enables multiline formatting */
+        }
+
+        /* Close Button */
+        .close-btn {
+            background: red;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .close-btn:hover {
+            background: darkred;
+            transform: scale(1.05);
+        }
+/* Player Info Styling (Above Image) */
+#modalText {
+    font-size: 18px;
+    font-weight: bold;
+    color: black;  /* Ensure text is visible */
+    background: linear-gradient(135deg, #f3f3f3, #e0e0e0);
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 10px;
+    text-align: center;
+    display: block; /* Ensure it appears */
+    white-space: pre-line; /* Allows multiline text */
+    max-width: 90%; /* Ensures proper width */
+    margin-left: auto;
+    margin-right: auto;
+}
+/* Modal Title Styling */
+#modalTitle {
+    font-size: 22px;
+    font-weight: bold;
+    color: black;  /* Ensure visibility */
+    text-align: center;
+    margin-bottom: 10px;
+    display: block;
+}
+
+
+
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Welcome to Hide and Seek</h2>
+        <p>Click "Next Player" to reveal a player.</p>
+    </div>
+
+    <div class="container">
+        <h2>Rules</h2>
+        <ul style="text-align: left; display: inline-block;">
+            <li>Only the outline of the player will be visible.</li>
+            <li>Find the player with the given Clue.</li>
+            <li>From each set Compulsorly all must take one player.</li>
+            <li>To see the original player enter the password and click show player.</li>
+            <li>Bid for the player.</li>
+        </ul>
+    </div>
+
+    <!-- Regular Navigation (No Password) -->
+    <div class="container">
+        <h3>Player Set-1</h3>
+        <button onclick="previousPlayerNoPassword()">Previous Player</button>
+        <button onclick="nextPlayerNoPassword()">Next Player</button>
+    </div>
+
+    <!-- Password-Protected Navigation -->
+    <div class="container">
+        <h3>Original Player Set-1</h3>
+        <input type="password" id="adminPassword" placeholder="Enter Password">
+        <button onclick="checkPassword()">Show Player</button>
+    </div>
+
+    <!-- Image Modal -->
+    <div id="imageModal">
+        <div class="modal-content">
+            <h3 id="modalTitle">Find the Player and Start bidding</h3>
+            <p id="modalText" class="player-info">Original Image</p> <!-- Text above image -->
+            <img id="modalImage" src="" alt="Player Image">
+            <br>
+            <button class="close-btn" onclick="closeModal()">Close</button>
+        </div>
+    </div>
+ <div class="container">
+        <h3>Player Set-2</h3>
+        <button onclick="previousPlayerGroup2()">Previous Player</button>
+        <button onclick="nextPlayerGroup2()">Next Player</button>
+    </div>
+
+    <div class="container">
+        <h3>Original Player Set-2</h3>
+        <input type="password" id="adminPassword2" placeholder="Enter Password">
+        <button onclick="checkPasswordGroup2()">Show Player</button>
+    </div>
+
+    <!-- Image Modal -->
+    <div id="imageModal">
+        <div class="modal-content">
+            <h3 id="modalTitle">Player</h3>
+            <p id="modalText" class="player-info">Original Image</p> <!-- Text above image -->
+            <img id="modalImage" src="" alt="Player Image">
+            <br>
+            <button class="close-btn" onclick="closeModal()">Close</button>
+        </div>
+    </div>
+    <button onclick="extPage()" style="background-color: red; color: white; padding: 12px 25px; font-size: 18px; font-weight: bold; border: none; border-radius: 25px; cursor: pointer; transition: 0.3s;margin-bottom: 30px;">Next Page</button>
+    <script>
+        let players = [
+            {
+                image: "jos.png",
+                password: "p",
+                regImage: "https://github.com/gjhklm-s/advance/releases/download/qdk/jos_silhouette.png",
+                regSentence: `The explosive wicketkeeper-batsman!  
+                              Role: WK Batsman  
+                              Nation: England  
+                              Style: RHB`, 
+                adminSentence: ` Jos Buttler is the player
+                                `
+            },
+             {
+                image:  "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201626.png" ,
+                password: "pa",
+                regImage: "https://github.com/gjhklm-s/advance/releases/download/qdk/deep11.png",
+                regSentence: `Swing bowler 
+                              Role: Fast Bowling Batsman 
+                              Nation: Afganisthan,India,England,Newzland 
+                              Style: RHB`, 
+                adminSentence: `The player is Deepak chachar`
+            },
+             {
+                image: "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.200239.png",
+                password: "pas",
+                regImage: "https://github.com/gjhklm-s/advance/releases/download/qdk/gowthan11.png",
+                regSentence: `The ---------  ------- allrounder  
+                              Role: off spinning batsman  
+                              Nation: England ,australia,India 
+                              Style: RHB`, 
+                adminSentence: `The player is Krishnapa Gowtham`
+            },
+             {
+                image: "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193027.png",
+                password: "pass",
+                regImage: "https://github.com/gjhklm-s/advance/releases/download/qdk/sunil11.png",
+                regSentence: ` All Rounder
+                              Role:spinner and batsmam
+                              Nation: England,West Indies,Newzland 
+                              Style: LHB`, 
+                adminSentence: `The player is sunil Narin`
+            },
+             {
+                image: "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201334.png",
+                password: "passi",
+                regImage: "https://github.com/gjhklm-s/advance/releases/download/qdk/tnat11.png",
+                regSentence: `Yoker King  
+                              Role: Bowler  
+                              Nation: England,India,Auatralia  
+                              Style: --`, 
+                adminSentence: `The player is Natarajan`
+            },
+             {
+                image: "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.183648.png",
+                password: "passin",
+                regImage: "https://github.com/gjhklm-s/advance/releases/download/qdk/war11.png",
+                regSentence: ` The Great opener 
+                              Role: Batsman  
+                              Nation: England,Australia,Srilanka 
+                              Style: LHB`, 
+                adminSentence: `The player is David Warner`
+            },
+             {
+                image: "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193524.png",
+                password: "passing",
+                regImage: "https://github.com/gjhklm-s/advance/releases/download/qdk/yer11.png",
+                regSentence: `The highest paid allrounder 
+                              Role: Right arm medium and Batsman  
+                              Nation: England,australia,India 
+                              Style: LHB`, 
+                adminSentence: `The player is Venkatash Iyer`
+            },
+             {
+                image: "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201314.png",
+                password: "passing1",
+                regImage: "https://github.com/gjhklm-s/advance/releases/download/qdk/siraj11.png",
+                regSentence: `Nightmare of Srilanka  
+                              Role: Right arm fast  
+                              Nation: England ,India,Afganisthan 
+                              Style: --`, 
+                adminSentence: `The player is Mohamadh Siraj`
+            },
+             {
+                image: "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201013.png",
+                password: "pass",
+                regImage: "https://github.com/gjhklm-s/advance/releases/download/qdk/pathi11.png",
+                regSentence: ` Known for death overs
+                              Role: Right arm fast  
+                              Nation: England ,India,Afganisthan,Srilanka
+                              Style: --`, 
+                adminSentence: `The player is Pathirana`
+            },
+             {
+                image: "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.195806.png",
+                password: "pass1",
+                regImage: "https://github.com/gjhklm-s/advance/releases/download/qdk/ravi11.png",
+                regSentence: `---- ------- 
+                              Role: Leg spinner 
+                              Nation: England ,India,Afganisthan 
+                              Style: --`, 
+                adminSentence: `The player is Ravi Bishnoi`
+            }
+          
+        ];
+ let playersGroup2 = [
+            {
+                image: "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.183745.png",
+                password: "a",
+                regImage: "https://github.com/gjhklm-s/advance/releases/download/qdk/daral.png",
+                regSentence: `Vijay sankar,Daral Mitchal,Ks Barath, virat,Mayank Markandaya,Mayank Agarwal,Chachal,Rahul Thewatiya,Tim David,Markram,Travis Head,Strac,Rahul chachar,Rinku Singh,Riswan`, 
+                adminSentence: `The player is Daral Mitchal. `
+            },
+              {
+                image: "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.141736.png",
+                password: "s",
+                regImage: "https://github.com/gjhklm-s/advance/releases/download/qdk/ks.png",
+                regSentence: `Vijay sankar,Daral Mitchal,Ks Barath, virat,Mayank Markandaya,Mayank Agarwal,Chachal,Rahul Thewatiya,Tim David,Markram,Travis Head,Strac,Rahul chachar,Rinku Singh,Riswan`, 
+                adminSentence: `The player is Ks Barath`
+            },  {
+                image: "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.200014.png",
+                password: "w",
+                regImage: "https://github.com/gjhklm-s/advance/releases/download/qdk/markanda.png",
+                regSentence: `Vijay sankar,Daral Mitchal,Ks Barath, virat,Mayank Markandaya,Mayank Agarwal,Chachal,Rahul Thewatiya,Tim David,Markram,Travis Head,Strac,Rahul chachar,Rinku Singh,Riswan`, 
+                adminSentence: `The player is Mayank Markandaya`
+            },  {
+                image: "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.204108.png",
+                password: "aswa",
+                regImage: "https://github.com/gjhklm-s/advance/releases/download/qdk/mayank.png",
+                regSentence: `Vijay sankar,Daral Mitchal,Ks Barath, virat,Mayank Markandaya,Mayank Agarwal,Chachal,Rahul Thewatiya,Tim David,Markram,Travis Head,Strac,Rahul chachar,Rinku Singh,Riswan`, 
+                adminSentence: `The player is Mayank Agarwal `
+            },  {
+                image: "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193422.png",
+                password: "t",
+                regImage: "https://github.com/gjhklm-s/advance/releases/download/qdk/tewata.png",
+                regSentence: `Vijay sankar,Daral Mitchal,Ks Barath, virat,Mayank Markandaya,Mayank Agarwal,Chachal,Rahul Thewatiya,Tim David,Markram,Travis Head,Strac,Rahul chachar,Rinku Singh,Riswan`, 
+                adminSentence: `The player is Rahul Thewatiya`
+            },  {
+                image: "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.185037.png",
+                password: "h",
+                regImage: "https://github.com/gjhklm-s/advance/releases/download/qdk/tim.png",
+                regSentence: `Vijay sankar,Daral Mitchal,Ks Barath, virat,Mayank Markandaya,Mayank Agarwal,Chachal,Rahul Thewatiya,Tim David,Markram,Travis Head,Strac,Rahul chachar,Rinku Singh,Riswan`, 
+                adminSentence: `The player is Tim David `
+            },  {
+                image: "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.184945.png",
+                password: "b",
+                regImage: "https://github.com/gjhklm-s/advance/releases/download/qdk/head.png",
+                regSentence: `Vijay sankar,Daral Mitchal,Ks Barath, virat,Mayank Markandaya,Mayank Agarwal,Chachal,Rahul Thewatiya,Tim David,Markram,Travis Head,Strac,Rahul chachar,Rinku Singh,Riswan`, 
+                adminSentence: `The player is Travis Head`
+            },  {
+                image: "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.195905.png",
+                password: "r",
+                regImage: "https://github.com/gjhklm-s/advance/releases/download/qdk/rahul.png",
+                regSentence: `Vijay sankar,Daral Mitchal,Ks Barath, virat,Mayank Markandaya,Mayank Agarwal,Chachal,Rahul Thewatiya,Tim David,Markram,Travis Head,Strac,Rahul chachar,Rinku Singh,Riswan`, 
+                adminSentence: `The player is Rahul chachar`
+            },  {
+                image: "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.183808.png",
+                password: "o",
+                regImage: "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-17.215258.png",
+                regSentence: `Vijay sankar,Daral Mitchal,Ks Barath, virat,Mayank Markandaya,Mayank Agarwal,Chachal,Rahul Thewatiya,Tim David,Markram,Travis Head,Strac,Rahul chachar,Rinku Singh,Riswan`, 
+                adminSentence: `The player is Riswan`
+            },
+             {
+                image: "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.185434.png",
+                password: "hi",
+                regImage: "https://github.com/gjhklm-s/advance/releases/download/qdk/rinku.png",
+                regSentence: `Vijay sankar,Daral Mitchal,Ks Barath, virat,Mayank Markandaya,Mayank Agarwal,Chachal,Rahul Thewatiya,Tim David,Markram,Travis Head,Strac,Rahul chachar,Rinku Singh,Riswan`, 
+                adminSentence: `The player is Rinku Singh`
+            },
+        ];
+        let currentIndexAdmin = -1;
+        let currentIndexRegular = -1;
+         let indexGroup1 = -1;
+        let indexGroup2 = -1;
+
+        function showModal(imageSrc, text) {
+            document.getElementById("modalImage").src = imageSrc;
+            document.getElementById("modalText").innerText = text; 
+            document.getElementById("imageModal").style.display = "block";
+        }
+
+        function closeModal() {
+            document.getElementById("imageModal").style.display = "none";
+        }
+
+        function checkPassword() {
+            let enteredPassword = document.getElementById("adminPassword").value;
+            let found = players.find(player => player.password === enteredPassword);
+
+            if (found) {
+                showModal(found.image, found.adminSentence);
+                alert("Password correct! Player revealed.");
+            } else {
+                alert("Incorrect Password! Try again.");
+            }
+        }
+
+        function nextPlayerNoPassword() {
+            if (++currentIndexRegular < players.length) {
+                showModal(players[currentIndexRegular].regImage, players[currentIndexRegular].regSentence);
+            } else alert("No more players!");
+        }
+
+        function previousPlayerNoPassword() {
+            if (--currentIndexRegular >= 0) {
+                showModal(players[currentIndexRegular].regImage, players[currentIndexRegular].regSentence);
+            } else alert("This is the first player.");
+        }
+         function nextPlayerGroup2() {
+            if (++indexGroup2 < playersGroup2.length) {
+                 showModal(playersGroup2[indexGroup2].regImage, playersGroup2[indexGroup2].regSentence);
+            } else {
+                alert("No more players in Group 2!");
+                indexGroup2--;
+            }
+        }
+     
+    function extPage() {
+        window.location.href = "j.html"; // Replace with your actual page URL
+    }
+
+
+        function previousPlayerGroup2() {
+            if (--indexGroup2 >= 0) {
+                showModal(playersGroup2[indexGroup2].regImage, playersGroup2[indexGroup2].regSentence);
+            } else {
+                alert("This is the first player in Group 2.");
+                indexGroup2++;
+            }
+        }
+
+        function checkPasswordGroup2() {
+            let enteredPassword = document.getElementById("adminPassword2").value;
+            let found = playersGroup2.find(player => player.password === enteredPassword);
+            if (found) {
+               showModal(found.image, found.adminSentence);
+                alert("Password correct! Player revealed.");
+            } else {
+                alert("Incorrect Password! Try again.");
+            }
+        }
+    </script>
+
+</body>
+</html>
