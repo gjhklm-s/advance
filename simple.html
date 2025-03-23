@@ -30,7 +30,7 @@
     const currentBidRef = ref(db, "auction/currentBid");
     const totalBidRef = ref(db, "auction/totalBid");
     const lastBidderRef = ref(db, "auction/lastBidder");
-     const users = ["Sujin", "Ajin", "Kamal"];
+     const users = ["Sujin", "Ajin","Kamal", "Abi", "Asoke",  "Anish", "DD", "Raja", "Aswath", "Varshan", "rrk", "Gokul", "Jerwin"];
 let activeTimers = {};
 let selectedUser = users[0];
 
@@ -404,7 +404,7 @@ window.selectUser = selectUser;
 
     <h2>Last Bidder: <span id="lastBidder">None</span></h2>
 
-    <div class="bid-container">
+     <div class="bid-container">
         <!-- Users -->
         <div id="Sujin" class="user-section">
             <h3>Sujin: <span id="Sujin-status">✅ Ready to Bid</span></h3>
@@ -435,14 +435,116 @@ window.selectUser = selectUser;
                 <button onclick="placeBid('Kamal', 5)">5Cr</button>
             </div>
         </div>
+        <div id="Abi" class="user-section">
+            <h3>Abi: <span id="Abi-status">✅ Ready to Bid</span></h3>
+            <div id="Abi-buttons" class="bid-buttons">
+                <button onclick="placeBid('Abi', 0.2)">20L</button>
+                <button onclick="placeBid('Abi', 0.5)">50L</button>
+                <button onclick="placeBid('Abi', 1)">1Cr</button>
+                <button onclick="placeBid('Abi', 5)">5Cr</button>
+            </div>
+        </div>
+        <div id="Asoke" class="user-section">
+            <h3>Asoke: <span id="Asoke-status">✅ Ready to Bid</span></h3>
+            <div id="Asoke-buttons" class="bid-buttons">
+                <button onclick="placeBid('Asoke', 0.2)">20L</button>
+                <button onclick="placeBid('Asoke', 0.5)">50L</button>
+                <button onclick="placeBid('Asoke', 1)">1Cr</button>
+                <button onclick="placeBid('Asoke', 5)">5Cr</button>
+            </div>
+        </div>
+        <div id="Anish" class="user-section">
+            <h3>Anish: <span id="Anish-status">✅ Ready to Bid</span></h3>
+            <div id="Anish-buttons" class="bid-buttons">
+                <button onclick="placeBid('Anish', 0.2)">20L</button>
+                <button onclick="placeBid('Anish', 0.5)">50L</button>
+                <button onclick="placeBid('Anish', 1)">1Cr</button>
+                <button onclick="placeBid('Anish', 5)">5Cr</button>
+            </div>
+        </div>
+        <div id="DD" class="user-section">
+            <h3>DD: <span id="DD-status">✅ Ready to Bid</span></h3>
+            <div id="DD-buttons" class="bid-buttons">
+                <button onclick="placeBid('DD', 0.2)">20L</button>
+                <button onclick="placeBid('DD', 0.5)">50L</button>
+                <button onclick="placeBid('DD', 1)">1Cr</button>
+                <button onclick="placeBid('DD', 5)">5Cr</button>
+            </div>
+        </div>
+        <div id="Raja" class="user-section">
+            <h3>Raja: <span id="Raja-status">✅ Ready to Bid</span></h3>
+            <div id="Raja-buttons" class="bid-buttons">
+                <button onclick="placeBid('Raja', 0.2)">20L</button>
+                <button onclick="placeBid('Raja', 0.5)">50L</button>
+                <button onclick="placeBid('Raja', 1)">1Cr</button>
+                <button onclick="placeBid('Raja', 5)">5Cr</button>
+            </div>
+        </div>
+          <div id="Aswath" class="user-section">
+            <h3>Aswath: <span id="Aswath-status">✅ Ready to Bid</span></h3>
+            <div id="Aswath-buttons" class="bid-buttons">
+                <button onclick="placeBid('Aswath', 0.2)">20L</button>
+                <button onclick="placeBid('Aswath', 0.5)">50L</button>
+                <button onclick="placeBid('Aswath', 1)">1Cr</button>
+                <button onclick="placeBid('Aswath', 5)">5Cr</button>
+            </div>
+        </div>
+          <div id="Varshan" class="user-section">
+            <h3>Varshan: <span id="Varshan-status">✅ Ready to Bid</span></h3>
+            <div id="Varshan-buttons" class="bid-buttons">
+                <button onclick="placeBid('Varshan', 0.2)">20L</button>
+                <button onclick="placeBid('Varshan', 0.5)">50L</button>
+                <button onclick="placeBid('Varshan', 1)">1Cr</button>
+                <button onclick="placeBid('Varshan', 5)">5Cr</button>
+            </div>
+        </div>
+          <div id="rrk" class="user-section">
+            <h3>rrk: <span id="rrk-status">✅ Ready to Bid</span></h3>
+            <div id="rrk-buttons" class="bid-buttons">
+                <button onclick="placeBid('rrk', 0.2)">20L</button>
+                <button onclick="placeBid('rrk', 0.5)">50L</button>
+                <button onclick="placeBid('rrk', 1)">1Cr</button>
+                <button onclick="placeBid('rrk', 5)">5Cr</button>
+            </div>
+        </div>
+          <div id="Gokul" class="user-section">
+            <h3>Gokul: <span id="Gokul-status">✅ Ready to Bid</span></h3>
+            <div id="Gokul-buttons" class="bid-buttons">
+                <button onclick="placeBid('Gokul', 0.2)">20L</button>
+                <button onclick="placeBid('Gokul', 0.5)">50L</button>
+                <button onclick="placeBid('Gokul', 1)">1Cr</button>
+                <button onclick="placeBid('Gokul', 5)">5Cr</button>
+            </div>
+        </div>
+        <div id="Jerwin" class="user-section">
+            <h3>Jerwin: <span id="Jerwin-status">✅ Ready to Bid</span></h3>
+            <div id="Jerwin-buttons" class="bid-buttons">
+                <button onclick="placeBid('Jerwin', 0.2)">20L</button>
+                <button onclick="placeBid('Jerwin', 0.5)">50L</button>
+                <button onclick="placeBid('Jerwin', 1)">1Cr</button>
+                <button onclick="placeBid('Jerwin', 5)">5Cr</button>
+            </div>
+        </div>
     </div>
 
     <div class="user-selector">
         <h3>Select Username</h3>
         <select onchange="selectUser(this.value)">
+             <option value="">Select User</option>
             <option value="Sujin">Sujin</option>
             <option value="Ajin">Ajin</option>
             <option value="Kamal">Kamal</option>
+            <option value="Abi">Abi</option>
+            <option value="Asoke">Asoke</option>
+            
+            <option value="Anish">Anish</option>
+            <option value="DD">DD</option>
+            <option value="Raja">Raja</option>
+            <option value="Aswath">Aswath</option>
+            <option value="Varshan">Varshan</option>
+            <option value="rrk">rrk</option>
+            <option value="Gokul">Gokul</option>
+             <option value="Jerwin">Jerwin</option>
         </select>
     </div>
      </div>
