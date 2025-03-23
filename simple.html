@@ -4,6 +4,188 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Player Selection</title>
+  <script type="module">
+    // Import Firebase
+     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
+        import { getDatabase, ref,onChildAdded, set, get, update, remove, onValue, push } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-database.js";
+
+        // Firebase configuration
+       const firebaseConfig = {
+  apiKey: "AIzaSyB71Ps4M3pkO9Y9YbZtQtcnta8mwXR-luU",
+  authDomain: "happy-70335.firebaseapp.com",
+  databaseURL: "https://happy-70335-default-rtdb.firebaseio.com",
+  projectId: "happy-70335",
+  storageBucket: "happy-70335.firebasestorage.app",
+  messagingSenderId: "471068695841",
+  appId: "1:471068695841:web:583eccd3c92b236d123260",
+  measurementId: "G-SD1EHGBRP9"
+};
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    console.log("✅ Firebase Initialized");
+
+    // Firebase References
+    const currentBidRef = ref(db, "auction/currentBid");
+    const totalBidRef = ref(db, "auction/totalBid");
+    const lastBidderRef = ref(db, "auction/lastBidder");
+     const users = ["Sujin", "Ajin", "Kamal"];
+let activeTimers = {};
+let selectedUser = users[0];
+
+// Function to update UI
+function updateUI() {
+    users.forEach(user => {
+        document.getElementById(user).style.display = user === selectedUser ? "block" : "none";
+    });
+}
+
+// Select user
+function selectUser(user) {
+    selectedUser = user;
+    updateUI();
+}
+
+// Start Timer for User
+function startUserTimer(user) {
+    if (activeTimers[user]) return;
+
+    let timeLeft = [10, 15, 20, 25, 30][Math.floor(Math.random() * 5)];
+    document.getElementById(`${user}-status`).textContent = `⏳ Waiting... | ${timeLeft}s`;
+
+    activeTimers[user] = setInterval(() => {
+        timeLeft--;
+        document.getElementById(`${user}-status`).textContent = `⏳ Waiting... | ${timeLeft}s`;
+
+        if (timeLeft === 0) {
+            clearInterval(activeTimers[user]);
+            delete activeTimers[user];
+            document.getElementById(`${user}-status`).textContent = "✅ Ready to Bid!";
+        }
+    }, 1000);
+}
+
+// Place Bid
+function placeBid(user, amount) {
+    if (activeTimers[user]) {
+        alert("⏳ Wait until your timer finishes!");
+        return;
+    }
+
+    // Update UI for bidding
+    document.getElementById(`${user}-status`).textContent = `✅ Bid Placed: ${amount} Cr!`;
+
+    // Get total bid from Firebase, update and set new values
+    get(totalBidRef).then((snapshot) => {
+        let totalBid = snapshot.exists() ? parseFloat(snapshot.val()) : 0;
+        let newTotalBid = (totalBid + amount).toFixed(1); // Fix floating point issue
+        newTotalBid = parseFloat(newTotalBid); // Convert back to number
+
+        // Update Firebase values
+        set(currentBidRef, amount);
+        set(totalBidRef, newTotalBid);
+        set(lastBidderRef, user);
+    }).catch(error => console.error("❌ Error fetching total bid:", error));
+
+    // Start user cooldown timer
+    startUserTimer(user);
+}
+
+// Listen for real-time updates
+onValue(currentBidRef, (snapshot) => {
+    const bidValue = snapshot.exists() ? parseFloat(snapshot.val()).toFixed(1) : "0.0";
+    document.getElementById("currentBid").textContent = bidValue + " Cr";
+});
+
+onValue(totalBidRef, (snapshot) => {
+    const totalValue = snapshot.exists() ? parseFloat(snapshot.val()).toFixed(1) : "0.0";
+    document.getElementById("totalBid").textContent = totalValue + " Cr";
+});
+
+onValue(lastBidderRef, (snapshot) => {
+    const bidder = snapshot.exists() ? snapshot.val() : "None";
+    document.getElementById("lastBidder").textContent = bidder;
+});
+
+// Start timers initially
+users.forEach(user => startUserTimer(user));
+
+// Update UI on load
+window.onload = updateUI;
+
+// Expose functions globally
+window.placeBid = placeBid;
+window.selectUser = selectUser;
+
+
+   document.addEventListener("DOMContentLoaded", function () {
+    // Array of 10 different passwords
+    const adminPasswords = [
+        "admin123", "hi", "bro", "how", "you",
+        "like", "our", "s", "play", "183"
+    ];
+
+    // Reference for tracking password index in Firebase
+    const passwordIndexRef = ref(db, "auction/passwordIndex");
+
+    document.getElementById("soldButton").addEventListener("click", async function () {
+        try {
+            // Get the current password index from Firebase
+            const passwordIndexSnapshot = await get(passwordIndexRef);
+            let passwordIndex = passwordIndexSnapshot.exists() ? passwordIndexSnapshot.val() : 0;
+
+            // Get the current password based on the index
+            const correctPassword = adminPasswords[passwordIndex];
+
+            // Ask for password input
+            const enteredPassword = prompt("Enter the password to confirm the sale:");
+
+            // Validate the entered password
+            if (enteredPassword !== correctPassword) {
+                alert("❌ Incorrect Password. Try again!");
+                return;
+            }
+
+            console.log("🔥 Fetching last bid details before resetting...");
+
+            // Get the last bidder and total bid BEFORE resetting
+            const lastBidderSnapshot = await get(lastBidderRef);
+            const totalBidSnapshot = await get(totalBidRef);
+
+            const lastBidder = lastBidderSnapshot.exists() ? lastBidderSnapshot.val() : "Unknown";
+            const totalBid = totalBidSnapshot.exists() ? parseFloat(totalBidSnapshot.val()).toFixed(1) : "0.0";
+
+            // **Show the alert BEFORE resetting**
+            alert(`🎉 ${lastBidder} bought the player for ${totalBid} Cr!
+        To see the playername enter password and click show button.`);
+
+            console.log(`✅ ${lastBidder} bought the player for ${totalBid} Cr`);
+
+            // Reset auction values in Firebase
+            await set(currentBidRef, 0);
+            await set(totalBidRef, 0);
+            await set(lastBidderRef, "None");
+
+            console.log("✅ Auction reset successfully!");
+
+            // Update UI
+            document.getElementById("currentBid").textContent = "0.0 Cr";
+            document.getElementById("totalBid").textContent = "0.0 Cr";
+            document.getElementById("lastBidder").textContent = "None";
+
+            // **Move to the next password**
+            passwordIndex = (passwordIndex + 1) % adminPasswords.length; // Loop back to start when reaching the end
+            await set(passwordIndexRef, passwordIndex);
+
+        } catch (error) {
+            console.error("❌ Error resetting auction:", error);
+            alert("⚠ Failed to reset auction. Check console for details.");
+        }
+    });
+});
+
+</script>
     <style>
         /* General Body Styles */
         body {
@@ -215,6 +397,60 @@
             <button class="close-btn" onclick="closeModal()">Close</button>
         </div>
     </div>
+     <div class="container">
+        <h1>Auction Bidding System</h1>
+        <h2>Total Bid: <span id="totalBid">0.0 Cr</span></h2>
+    <h2>Current Bid: <span id="currentBid">0.0 Cr</span></h2>
+
+    <h2>Last Bidder: <span id="lastBidder">None</span></h2>
+
+    <div class="bid-container">
+        <!-- Users -->
+        <div id="Sujin" class="user-section">
+            <h3>Sujin: <span id="Sujin-status">✅ Ready to Bid</span></h3>
+            <div id="Sujin-buttons" class="bid-buttons">
+                <button onclick="placeBid('Sujin', 0.2)">20L</button>
+                <button onclick="placeBid('Sujin', 0.5)">50L</button>
+                <button onclick="placeBid('Sujin', 1)">1Cr</button>
+                <button onclick="placeBid('Sujin', 5)">5Cr</button>
+            </div>
+        </div>
+
+        <div id="Ajin" class="user-section">
+            <h3>Ajin: <span id="Ajin-status">✅ Ready to Bid</span></h3>
+            <div id="Ajin-buttons" class="bid-buttons">
+                <button onclick="placeBid('Ajin', 0.2)">20L</button>
+                <button onclick="placeBid('Ajin', 0.5)">50L</button>
+                <button onclick="placeBid('Ajin', 1)">1Cr</button>
+                <button onclick="placeBid('Ajin', 5)">5Cr</button>
+            </div>
+        </div>
+
+        <div id="Kamal" class="user-section">
+            <h3>Kamal: <span id="Kamal-status">✅ Ready to Bid</span></h3>
+            <div id="Kamal-buttons" class="bid-buttons">
+                <button onclick="placeBid('Kamal', 0.2)">20L</button>
+                <button onclick="placeBid('Kamal', 0.5)">50L</button>
+                <button onclick="placeBid('Kamal', 1)">1Cr</button>
+                <button onclick="placeBid('Kamal', 5)">5Cr</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="user-selector">
+        <h3>Select Username</h3>
+        <select onchange="selectUser(this.value)">
+            <option value="Sujin">Sujin</option>
+            <option value="Ajin">Ajin</option>
+            <option value="Kamal">Kamal</option>
+        </select>
+    </div>
+     </div>
+        <button id="soldButton">Sold</button>
+       
+        <br>
+        <br>
+
     <button onclick="extPage()" style="background-color: red; color: white; padding: 12px 25px; font-size: 18px; font-weight: bold; border: none; border-radius: 25px; cursor: pointer; transition: 0.3s;margin-bottom: 30px;">Next Page</button>
     <script>
         let players = [
@@ -301,7 +537,7 @@
             },
              {
                 image: "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201013.png",
-                password: "pass1",
+                password: "pass",
                 regImage: "https://github.com/gjhklm-s/advance/releases/download/qdk/pathi11.png",
                 regSentence: ` Known for death overs
                               Role: Right arm fast  
@@ -311,7 +547,7 @@
             },
              {
                 image: "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.195806.png",
-                password: "pass2",
+                password: "pass1",
                 regImage: "https://github.com/gjhklm-s/advance/releases/download/qdk/ravi11.png",
                 regSentence: `---- ------- 
                               Role: Leg spinner 
@@ -400,6 +636,7 @@
         function closeModal() {
             document.getElementById("imageModal").style.display = "none";
         }
+        
 
         function checkPassword() {
             let enteredPassword = document.getElementById("adminPassword").value;
@@ -412,6 +649,16 @@
                 alert("Incorrect Password! Try again.");
             }
         }
+      
+
+
+
+
+
+
+
+
+
 
         function nextPlayerNoPassword() {
             if (++currentIndexRegular < players.length) {
@@ -431,8 +678,9 @@
                 alert("No more players in Group 2!");
                 indexGroup2--;
             }
-        }
      
+        }
+       
     function extPage() {
         window.location.href = "j.html"; // Replace with your actual page URL
     }
@@ -446,6 +694,8 @@
                 indexGroup2++;
             }
         }
+ 
+
 
         function checkPasswordGroup2() {
             let enteredPassword = document.getElementById("adminPassword2").value;
@@ -457,6 +707,7 @@
                 alert("Incorrect Password! Try again.");
             }
         }
+        
     </script>
 
 </body>
