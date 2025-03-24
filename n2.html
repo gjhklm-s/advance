@@ -68,6 +68,32 @@ text-align: center;
     
 	  
            
+
+        }
+   
+         #auctionScroll {
+            position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgb(141, 210, 220);
+    padding: 10px;
+    border-bottom: 2px solid black;
+    z-index: 1000; /* Ensure it stays on top */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+        }
+
+        #scrollContent {
+            display: inline-block;
+            animation: scrollLeft 10s linear infinite;
+        }
+
+        @keyframes scrollLeft {
+            from { transform: translateX(100%); }
+            to { transform: translateX(-100%); }
         }
         #teamsContainer div {
     display: block !important;
@@ -239,7 +265,10 @@ text-align: center;
     <header>
 
     </header>
-	
+     <div id="auctionScroll">
+        <span id="scrollContent"> Sold Players will appear here...</span>
+    </div>
+	<div id="auctionedPlayersContainer"></div>
 
     <main>
          <div class="auction-box">
@@ -383,8 +412,9 @@ text-align: center;
             <option value="Aswath">Aswath</option>
             <option value="Varshan">Varshan</option>
             <option value="rrk">rrk</option>
-		 <option value="Gokul">Gokul</option>
+            <option value="Gokul">Gokul</option>
              <option value="Jerwin">Jerwin</option>
+        
         </select>
 		
         <button onclick="setTeam()"onmouseover="this.style.background='#663399';" 
@@ -459,6 +489,22 @@ text-align: center;
             tableBody.innerHTML += row;
         });
     }
+     function updateAuctionedPlayersUI() {
+    const container = document.getElementById("auctionedPlayersContainer");
+    container.innerHTML = "";
+    
+    Object.keys(teams).forEach(team => {
+      teams[team].players.forEach(playerObj => {
+        let playerDiv = document.createElement("div");
+        playerDiv.textContent = `${playerObj.player} - ₹${playerObj.price} Cr`;
+        playerDiv.style.padding = "5px";
+        playerDiv.style.border = "1px solid black";
+        playerDiv.style.backgroundColor = "lightgray";
+        playerDiv.style.borderRadius = "5px";
+        container.appendChild(playerDiv);
+      });
+    });
+  }
     
     function removeUnsoldPlayer(index) {
         unsoldPlayers.splice(index, 1);
@@ -674,7 +720,7 @@ text-align: center;
             "Aswath": { players: [], totalSpent: 0, remainingBudget: 150 },
             "Varshan": { players: [], totalSpent: 0, remainingBudget: 150 },
              "rrk": { players: [], totalSpent: 0, remainingBudget: 150 },
-		"Gokul": { players: [], totalSpent: 0, remainingBudget: 150 },
+             "Gokul": { players: [], totalSpent: 0, remainingBudget: 150 },
               "Jerwin": { players: [], totalSpent: 0, remainingBudget: 150 },
         };
         let currentCategory = "";
@@ -813,7 +859,7 @@ function showImageAlert() {
 }
 
         let totalBudget = 150;
-        let playerLimit = 16;
+        let playerLimit = 20;
         
         function setTeam() {
             const selectedTeam = document.getElementById("teamName").value;
@@ -945,6 +991,7 @@ if (unsoldPlayers.includes(player)) {
         totalPoints: totalPoints,  
         timestamp: Date.now()
     });
+    updateAuctionScroll(player, selectedTeam, price);
 
     alert(`${selectedTeam} bought ${player} for ₹${price} Cr!\nTotal Points: ${totalPoints}`);
 }
@@ -998,7 +1045,12 @@ function listenForAuctionUpdates() {
             console.log("No auction data available.");
         }
     });
+
 }
+ function updateAuctionScroll(player, team, price) {
+            const scrollDiv = document.getElementById("scrollContent");
+            scrollDiv.innerHTML += ` 🔥 ${team} bought ${player} for ₹${price} Cr! &nbsp;&nbsp;`;
+        }
 function updateTeamTables() {
     const teamsContainer = document.getElementById("teamsContainer");
     if (!teamsContainer) {
