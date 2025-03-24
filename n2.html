@@ -72,23 +72,33 @@ text-align: center;
         }
    
          #auctionScroll {
-            position: fixed;
+           position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    background-color: rgb(141, 210, 220);
+    background-color: #222;
+    color: white;
     padding: 10px;
-    border-bottom: 2px solid black;
-    z-index: 1000; /* Ensure it stays on top */
+    z-index: 1000;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
-    gap: 10px;
-        }
+    gap: 15px; /* Adds space between players */
+    overflow: hidden; /* Prevents scrolling */
+    white-space: nowrap; /* Keeps all players in a straight line */
+}
+
+        #auctionedPlayersWrapper {
+    display: inline-block;
+    white-space: nowrap;
+    animation: scrollPlayers 5s linear infinite; /* Keeps speed stable */
+}
 
         #scrollContent {
             display: inline-block;
-            animation: scrollLeft 10s linear infinite;
+            animation: scrollLeft 40s linear infinite;
         }
 
         @keyframes scrollLeft {
@@ -266,6 +276,7 @@ text-align: center;
 
     </header>
      <div id="auctionScroll">
+         <div id="auctionedPlayersWrapper"></div>
         <span id="scrollContent"> Sold Players will appear here...</span>
     </div>
 	<div id="auctionedPlayersContainer"></div>
@@ -800,6 +811,40 @@ function nextPlayer() {
         
     }
 }
+function updateAuctionedPlayers(player) {
+    let container = document.getElementById("scrollContent");
+
+    let playerElement = document.createElement("span");
+    playerElement.classList.add("auctionedPlayer");
+    playerElement.textContent = player;
+    playerElement.style.padding = "5px 15px";
+    playerElement.style.background = "#ffcc00";
+    playerElement.style.color = "black";
+    playerElement.style.borderRadius = "5px";
+    playerElement.style.fontWeight = "bold";
+
+    container.appendChild(playerElement);
+
+    adjustScrollSpeed();
+}
+
+function adjustScrollSpeed() {
+    let container = document.getElementById("scrollContent");
+    let totalWidth = container.scrollWidth;
+    let speed = totalWidth / 100; // Adjust speed based on width (constant)
+    
+    container.style.animation = `scrollLeft ${speed}s linear infinite`;
+}
+
+// Add animation dynamically
+let style = document.createElement("style");
+style.innerHTML = `
+    @keyframes scrollLeft {
+        from { transform: translateX(100%); }
+        to { transform: translateX(-100%); }
+    }
+`;
+document.head.appendChild(style);
 
 
 
@@ -859,7 +904,7 @@ function showImageAlert() {
 }
 
         let totalBudget = 150;
-        let playerLimit = 20;
+        let playerLimit = 16;
         
         function setTeam() {
             const selectedTeam = document.getElementById("teamName").value;
