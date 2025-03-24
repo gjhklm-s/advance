@@ -51,7 +51,7 @@ function selectUser(user) {
 function startUserTimer(user) {
     if (activeTimers[user]) return;
 
-    let timeLeft = [10, 15, 20, 25, 30][Math.floor(Math.random() * 5)];
+    let timeLeft = [5,10, 15, 20, 25,][Math.floor(Math.random() * 5)];
     document.getElementById(`${user}-status`).textContent = `⏳ Waiting... | ${timeLeft}s`;
 
     activeTimers[user] = setInterval(() => {
