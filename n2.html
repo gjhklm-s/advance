@@ -388,6 +388,23 @@ text-align: center;
             border-radius: 5px; 
             cursor: pointer;"
     >Indian Players</button>
+	    <div id="playerDisplay"></div>
+<button onclick="prevPlayer()"style="
+            background:grey; 
+            color: white; 
+            border: none; 
+            padding: 10px 20px; 
+            font-size: 16px; 
+            border-radius: 5px; 
+            cursor: pointer;">⬅️ Previous</button>
+<button onclick="nextPlayer()"style="
+            background:grey; 
+            color: white; 
+            border: none; 
+            padding: 10px 20px; 
+            font-size: 16px; 
+            border-radius: 5px; 
+            cursor: pointer;">➡️ Next</button>
 		
 
 
@@ -742,47 +759,102 @@ text-align: center;
         currentIndex = 0;
         displayPlayer();
     }
- function displayPlayer() {
-    const playerList = players[currentCategory];
+    function displayPlayer() {
+    const playerContainer = document.getElementById("playerDisplay");
+    const player = players[currentCategory][currentIndex];
 
-    if (!playerList || playerList.length === 0) {
-        document.getElementById("playersList").innerHTML = "<h2>No players available</h2>";
+    if (!player) {
+        playerContainer.innerHTML = "No player found.";
         return;
     }
 
-    const player = playerList[currentIndex];
-    let playerName = typeof player === "object" ? player.name : player;
-    let playerImage = typeof player === "object" && player.image ? player.image : "";
+    const playerName = (typeof player === "object") ? player.name : player;
+    const playerImage = (typeof player === "object" && player.image) ? player.image : "";
 
-    document.getElementById("playersList").innerHTML = `
-        <h2>${currentCategory.replace(/([A-Z])/g, ' $1')}</h2>
-        <p><strong>Player ${currentIndex + 1}:</strong> ${playerName}</p>
-       
-        
-        <button onclick="prevPlayer()" onmouseover="this.style.background='grey';" onmouseout="this.style.background='red';" style="
-            background: red; 
+    playerContainer.innerHTML = `
+        <div style="text-align: center;">
+            <h2>${playerName}
+                <button onclick="copyToClipboard('${playerName}')" 
+                        style="
+            background:orange; 
             color: white; 
             border: none; 
             padding: 10px 20px; 
             font-size: 16px; 
             border-radius: 5px; 
             cursor: pointer;">
-            Previous Player
-        </button>
-        
-        <button onclick="nextPlayer()"
-   
-    style="
-            background: red; 
-            color: white; 
-            border: none; 
-            padding: 10px 20px; 
-            font-size: 16px; 
-            border-radius: 5px; 
-            cursor: pointer;">
-            Next Player
-        </button>
+                    📋 Copy
+                </button>
+            </h2>
+            ${playerImage ? `<img src="${playerImage}" style="max-width: 200px; border-radius: 8px;">` : "<p>No image available.</p>"}
+        </div>
     `;
+}
+
+function copyToClipboard(text) {
+    // Try Clipboard API first (works in most modern browsers)
+    if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text)
+            .then(() => {
+                showCopyToast("Copied: " + text);
+            })
+            .catch(err => {
+                fallbackCopy(text);
+            });
+    } else {
+        fallbackCopy(text);
+    }
+}
+
+function fallbackCopy(text) {
+    // Create a temporary hidden textarea
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+
+    // Avoid scrolling to bottom
+    textArea.style.position = "fixed";
+    textArea.style.top = 0;
+    textArea.style.left = 0;
+    textArea.style.opacity = 0;
+
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+
+    try {
+        const successful = document.execCommand("copy");
+        showCopyToast(successful ? "Copied: " + text : "Copy failed");
+    } catch (err) {
+        alert("Unable to copy.");
+    }
+
+    document.body.removeChild(textArea);
+}
+function showCopyToast(message) {
+    const toast = document.createElement("div");
+    toast.textContent = message;
+    toast.style.cssText = `
+        position: fixed;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #333;
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 6px;
+        font-size: 14px;
+        z-index: 10000;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    `;
+    document.body.appendChild(toast);
+    setTimeout(() => {
+        toast.style.opacity = 1;
+    }, 10);
+    setTimeout(() => {
+        toast.style.opacity = 0;
+        setTimeout(() => document.body.removeChild(toast), 300);
+    }, 2000);
 }
 
 function nextPlayer() {
