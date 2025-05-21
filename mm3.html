@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bid Spinner</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f0f8ff;
+      text-align: center;
+    }
+    h2 {
+      color: #333;
+    }
+    select, button {
+      padding: 10px;
+      margin: 10px;
+      font-size: 16px;
+      width: 80%;
+      max-width: 300px;
+    }
+    #spinCounts {
+      max-width: 400px;
+      margin: 0 auto;
+      text-align: left;
+    }
+    #spinCounts li {
+      background: #fff;
+      margin: 5px 0;
+      padding: 8px 12px;
+      border-radius: 5px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    #adminSection {
+      display: none;
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #ccc;
+    }
+    canvas {
+      margin: 20px auto;
+      display: block;
+      border-radius: 50%;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      background: white;
+    }
+  </style>
+</head>
+<body>
+  <h2>🎲 Bid Spinner</h2>
+  <label for="username">Select Your Name:</label><br>
+  <select id="username"></select><br>
+
+  <button id="spinBtn" onclick="spinWheel()">Spin the Wheel</button>
+  <button id="clearBtn" onclick="adminClear()">Admin Clear</button>
+
+  <canvas id="spinner" width="300" height="300" style="display:none;"></canvas>
+  <div id="spinResult"></div>
+
+  <h3>📊 Spin Counts</h3>
+  <ul id="spinCounts"></ul>
+
+  <div id="adminSection">
+    <h3>🔧 Admin: Enable/Disable Users</h3>
+    <div id="userList"></div>
+    <button onclick="saveAllowedUsers()">Save Allowed Users</button>
+  </div>
+  <button onclick="extPage()" style="background-color: red; color: white; padding: 12px 25px; font-size: 18px; font-weight: bold; border: none; border-radius: 25px; cursor: pointer; transition: 0.3s;margin-bottom: 30px;">Next Page</button>
+    
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
+    import { getDatabase, ref, set, onValue, get, remove } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyB71Ps4M3pkO9Y9YbZtQtcnta8mwXR-luU",
+      authDomain: "happy-70335.firebaseapp.com",
+      databaseURL: "https://happy-70335-default-rtdb.firebaseio.com",
+      projectId: "happy-70335",
+      storageBucket: "happy-70335.appspot.com",
+      messagingSenderId: "471068695841",
+      appId: "1:471068695841:web:583eccd3c92b236d123260"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+   
+
+    let currentUser = "";
+    const allUsers = ["abi", "anish", "sujin", "ajin", "asoke", "kamal","rrk","DD","Jerwin","Gokul","varshan","Raja","Aswath"];
+    const usernameSelect = document.getElementById("username");
+
+    const canvas = document.getElementById("spinner");
+    const ctx = canvas.getContext("2d");
+
+    const segments = [1, 2, 3, 4, 5, 6, 7, 8]; // Numeric segment values
+    const arcSize = (2 * Math.PI) / segments.length;
+
+    // Draw the wheel segments and numbers
+    function drawWheel(startAngle) {
+      const radius = canvas.width / 2;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.save();
+      ctx.translate(radius, radius);
+      ctx.rotate(startAngle);
+
+      segments.forEach((seg, i) => {
+        ctx.beginPath();
+        ctx.fillStyle = `hsl(${i * 45}, 70%, 60%)`;
+        ctx.moveTo(0, 0);
+        ctx.arc(0, 0, radius - 10, i * arcSize, (i + 1) * arcSize);
+        ctx.lineTo(0, 0);
+        ctx.fill();
+
+        ctx.fillStyle = "#fff";
+        ctx.font = "bold 20px Arial";
+        ctx.textAlign = "right";
+        ctx.textBaseline = "middle";
+
+        const textAngle = i * arcSize + arcSize / 2;
+        ctx.save();
+        ctx.rotate(textAngle);
+        ctx.fillText(seg.toString(), radius - 20, 0);
+        ctx.restore();
+      });
+
+      ctx.restore();
+
+      // Draw the fixed needle on top center
+      drawNeedle();
+    }
+
+    // Needle fixed at top center pointing downwards towards wheel center
+    function drawNeedle() {
+      const radius = canvas.width / 2;
+      ctx.save();
+      ctx.translate(radius, radius);
+      ctx.fillStyle = "red";
+      ctx.beginPath();
+      const needleLength = 30;
+      const needleWidth = 15;
+      ctx.moveTo(0, -radius + 10); // needle tip near edge top
+      ctx.lineTo(-needleWidth / 2, -radius + 10 + needleLength);
+      ctx.lineTo(needleWidth / 2, -radius + 10 + needleLength);
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+    }
+
+    let allowedUsersSet = new Set();
+
+    // Populate user dropdown
+    allUsers.forEach(user => {
+      const opt = document.createElement("option");
+      opt.value = user;
+      opt.textContent = user;
+      usernameSelect.appendChild(opt);
+    });
+
+    onValue(ref(db, "allowedUsers"), snapshot => {
+      const data = snapshot.val();
+      allowedUsersSet = new Set(data ? Object.keys(data).filter(u => data[u]) : []);
+      updateUserInputState();
+    });
+
+    // Listen to spin results in DB and update list with exact spun number
+    onValue(ref(db, "spinStatus"), snapshot => {
+      const spinCounts = snapshot.val() || {};
+      const list = document.getElementById("spinCounts");
+      list.innerHTML = "";
+      allUsers.forEach(user => {
+        const spinVal = spinCounts[user]?.result || null;
+        const statusText = spinVal ? `✅ Spined (${spinVal} bids)` : '❌ Not Spined';
+        const li = document.createElement("li");
+        li.textContent = `${user}: ${statusText}`;
+        list.appendChild(li);
+      });
+    });
+
+    window.spinWheel = function () {
+      currentUser = usernameSelect.value;
+      if (!allowedUsersSet.has(currentUser)) {
+        alert("You are not allowed to spin. Please contact admin.");
+        return;
+      }
+
+      get(ref(db, `spinStatus/${currentUser}`)).then(snapshot => {
+        if (snapshot.exists()) {
+          alert("You have already spined. Wait for admin clearance.");
+          return;
+        }
+
+        canvas.style.display = "block";
+        const chosenIndex = Math.floor(Math.random() * segments.length);
+        const spins = 5;
+
+        // The needle points at top (-π/2), so rotate wheel so chosen segment center aligns there
+        const targetAngle = (2 * Math.PI * spins) + (chosenIndex * arcSize) + (arcSize / 2) - (Math.PI / 2);
+        const duration = 3000;
+        const startTime = performance.now();
+
+        function animate(time) {
+          let elapsed = time - startTime;
+          if (elapsed > duration) elapsed = duration;
+          const t = elapsed / duration;
+          const easeOut = 1 - Math.pow(1 - t, 3);
+          const currentAngle = easeOut * targetAngle;
+          drawWheel(currentAngle);
+
+          if (elapsed < duration) {
+            requestAnimationFrame(animate);
+          } else {
+            const result = segments[chosenIndex];
+            set(ref(db, `spinStatus/${currentUser}`), { result }).then(() => {
+              document.getElementById("spinResult").textContent = `User ${currentUser} spun: ${result} bids`;
+            });
+          }
+        }
+
+        requestAnimationFrame(animate);
+      });
+    };
+
+    window.adminClear = function () {
+      const pwd = prompt("Enter admin password:");
+      if (pwd === "7") {
+        allUsers.forEach(u => remove(ref(db, `spinStatus/${u}`)));
+        alert("All users reset. Spinning allowed again.");
+        showAdminPanel();
+        document.getElementById("spinResult").textContent = "";
+        canvas.style.display = "none";
+      } else {
+        alert("Wrong password!");
+      }
+    };
+
+    function showAdminPanel() {
+      const listDiv = document.getElementById("userList");
+      listDiv.innerHTML = "";
+
+      allUsers.forEach(user => {
+        const isChecked = allowedUsersSet.has(user);
+        const label = document.createElement("label");
+        label.style.display = "block";
+        label.innerHTML = `<input type="checkbox" value="${user}" ${isChecked ? "checked" : ""}> ${user}`;
+        listDiv.appendChild(label);
+      });
+
+      document.getElementById("adminSection").style.display = "block";
+    }
+
+    window.saveAllowedUsers = function () {
+      const checkboxes = document.querySelectorAll("#userList input[type=checkbox]");
+      const updated = {};
+      checkboxes.forEach(cb => updated[cb.value] = cb.checked);
+      set(ref(db, "allowedUsers"), updated).then(() => alert("Allowed users updated!"));
+    };
+
+    function updateUserInputState() {
+      const val = usernameSelect.value;
+      document.getElementById("spinBtn").disabled = !allowedUsersSet.has(val);
+    }
+
+    usernameSelect.addEventListener("change", updateUserInputState);
+    updateUserInputState();
+
+    // Show admin panel on load for convenience (optional)
+    showAdminPanel();
+    
+   
+
+  </script>
+  <script>
+     function extPage() {
+        window.location.href = "j.html"; // Replace with your actual page URL
+    }
+        
+  </script>
+</body>
+</html>
