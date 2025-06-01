@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>🎲 Dice Roll Bonus Viewer</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0faff;
+      text-align: center;
+      padding: 50px;
+    }
+
+    h2 {
+      color: #2c3e50;
+    }
+
+    select, button, input[type="password"] {
+      font-size: 16px;
+      padding: 10px 20px;
+      margin-top: 20px;
+    }
+
+    #diceImage {
+      font-size: 100px;
+      display: inline-block;
+      margin-top: 30px;
+    }
+
+    #result {
+      font-size: 24px;
+      margin-top: 30px;
+      color: green;
+      font-weight: bold;
+    }
+
+    #adminControls {
+      margin-top: 40px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+  </style>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+</head>
+<body>
+
+  <h2>🎲 Roll Dice to Reveal Bonus</h2>
+
+  <select id="teamName">
+    <option value="">-- Select Team --</option>
+    <option value="Sujin">Sujin</option>
+    <option value="Ajin">Ajin</option>
+    <option value="Abi">Abi</option>
+    <option value="Asoke">Asoke</option>
+    <option value="Kamal">Kamal</option>
+    <option value="Anish">Anish</option>
+    <option value="DD">DD</option>
+    <option value="Raja">Raja</option>
+    <option value="Aswath">Aswath</option>
+    <option value="Varshan">Varshan</option>
+    <option value="rrk">rrk</option>
+    <option value="Gokul">Gokul</option>
+    <option value="Jerwin">Jerwin</option>
+  </select>
+  <br>
+  <button onclick="rollDice()">Roll Dice</button>
+
+  <div id="diceImage">🎲</div>
+  <div id="result"></div>
+
+  <div id="adminControls">
+    <input type="password" id="adminPass" placeholder="Enter Admin Password">
+    <button onclick="clearRolls()">Clear Rolls</button>
+  </div>
+
+  <script>
+    const firebaseConfig = {
+    apiKey: "AIzaSyB71Ps4M3pkO9Y9YbZtQtcnta8mwXR-luU",
+    authDomain: "happy-70335.firebaseapp.com",
+    databaseURL: "https://happy-70335-default-rtdb.firebaseio.com",
+    projectId: "happy-70335",
+    storageBucket: "happy-70335.appspot.com",
+    messagingSenderId: "471068695841",
+    appId: "1:471068695841:web:583eccd3c92b236d123260"
+  };
+
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    const bonusOptions = [0.25, 0.5, 0.75, 1, 2];
+
+    function rollDice() {
+      const team = document.getElementById("teamName").value;
+      if (!team) {
+        alert("Please select a team first!");
+        return;
+      }
+
+      db.ref("rolls/" + team).once("value").then(snapshot => {
+        if (snapshot.exists()) {
+          alert(`${team} has already rolled.`);
+        } else {
+          const bonus = bonusOptions[Math.floor(Math.random() * bonusOptions.length)];
+          db.ref("rolls/" + team).set({
+            bonus: bonus,
+            timestamp: Date.now()
+          });
+        }
+      });
+    }
+
+    function clearRolls() {
+      const pass = document.getElementById("adminPass").value;
+      if (pass === "7") {
+        db.ref("rolls").remove().then(() => {
+          alert("All rolls cleared successfully!");
+        });
+      } else {
+        alert("Incorrect password!");
+      }
+    }
+
+    // Display result live for all
+    const resultDiv = document.getElementById("result");
+    firebase.database().ref("rolls").on("value", snapshot => {
+      const data = snapshot.val();
+      if (!data) {
+        resultDiv.innerHTML = "No rolls yet.";
+        return;
+      }
+      let display = "";
+      for (const team in data) {
+        display += `🎉 ${team} got ₹${data[team].bonus} Cr<br>`;
+      }
+      resultDiv.innerHTML = display;
+    });
+  </script>
+</body>
+</html>
