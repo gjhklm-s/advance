@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Budget Player Viewer</title>
+  <style>
+    body { font-family: Arial; text-align: center; padding: 30px; background: #f3f3f3; }
+    .player-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
+    .player-card { background: #fff; padding: 15px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); width: 200px; }
+    .player-card h3 { margin: 0 0 10px; }
+    .player-card p { margin: 5px 0; }
+    #adminInput { margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h1>Low Budget Players (<= ₹5 Cr)</h1>
+
+  <div id="adminInput">
+    <input type="password" id="adminPassword" placeholder="Enter password" />
+    <button onclick="showPlayers()">Show Players</button>
+  </div>
+
+  <div class="player-list" id="playerList"></div>
+
+  <script>
+    const playerPoints = {
+      "Shai Hope": 6, "KS Bharat": 7, "Rahmanullah Gurbaz": 7,
+      "Anuj Rawat": 7, "Kane Williamson": 6, "Daryl Mitchell": 6,
+      "Devdutt Padikkal": 7, "Kedar Jadhav ": 6, "Manish Pandey": 7,
+      "Harshal Patel": 8, "Ayush Badoni": 7, "Abdul Samad": 7,
+      "Sarfaraz Khan": 6, "Nitish Rana": 6, "Yash Dayal": 8,
+      "Kyle Mayers":7,
+    };
+
+    const playerPrice = {
+      "Shai Hope": 1, "KS Bharat": 2, "Rahmanullah Gurbaz": 2.25,
+      "Anuj Rawat": 2.50, "Kane Williamson": 1, "Daryl Mitchell": 1,
+      "Devdutt Padikkal": 2, "Kedar Jadhav ": 0.25, "Manish Pandey": 2.25,
+      "Harshal Patel": 3, "Ayush Badoni": 1.50, "Abdul Samad": 2,
+      "Sarfaraz Khan": 0.75, "Nitish Rana": 1, "Yash Dayal": 3.25,
+      "Kyle Mayers":2
+    };
+
+    function showPlayers() {
+      const pass = document.getElementById("adminPassword").value;
+      if (pass !== "77") {
+        alert("Incorrect password!");
+        return;
+      }
+
+      const container = document.getElementById("playerList");
+      container.innerHTML = "";
+
+      Object.keys(playerPoints).forEach(player => {
+        const card = document.createElement("div");
+        card.className = "player-card";
+        card.innerHTML = `
+          <h3>${player}</h3>
+          <p><strong>Points:</strong> ${playerPoints[player]}</p>
+          <p><strong>Price:</strong> ₹${playerPrice[player]} Cr</p>
+        `;
+        container.appendChild(card);
+      });
+    }
+  </script>
+</body>
+</html>
