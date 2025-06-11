@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +10,6 @@
       font-family: 'Segoe UI', sans-serif;
       background: linear-gradient(to right, #43cea2, #185a9d);
       padding: 20px;
-      position: relative;
       overflow-x: hidden;
     }
 
@@ -39,7 +37,7 @@
       gap: 20px;
       width: 100%;
       max-width: 800px;
-      margin: 0 auto 80px auto;
+      margin: 0 auto 60px;
     }
 
     .box {
@@ -56,9 +54,15 @@
     }
 
     .box h2 {
-      margin-bottom: 15px;
+      margin-bottom: 10px;
       font-size: 1.5rem;
       color: #333;
+    }
+
+    .box h3 {
+      font-weight: normal;
+      margin-bottom: 10px;
+      color: #555;
     }
 
     .box button {
@@ -75,6 +79,24 @@
     .box button:hover {
       background: #e56717;
     }
+
+    .proceed-btn {
+      display: block;
+      margin: 0 auto;
+      padding: 12px 30px;
+      font-size: 1rem;
+      background: #ff8c42;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .proceed-btn:hover {
+      background: #e56717;
+    }
+
   </style>
 </head>
 <body>
@@ -85,23 +107,25 @@
 
 <div class="container">
   <div class="box">
-    <h2>IPL quiz-1</h2>
-    <h3>Totally 10 questions and each question carries 1cr.</h3>
-    <h3>Time: 50sec for 10 question.</h3>
+    <h2>IPL Quiz - 1</h2>
+    <h3>10 questions × 1cr</h3>
+    <h3>Total Time: 50 sec</h3>
     <button onclick="checkPassword('test.html', '2004')">Go</button>
   </div>
   <div class="box">
-    <h2>IPL quiz-2</h2>
-    <h3>Totally 10 questions and each question carries 2cr.</h3>
-    <h3>Time: 7sec for each question.</h3>
+    <h2>IPL Quiz - 2</h2>
+    <h3>10 questions × 2cr</h3>
+    <h3>7 sec per question</h3>
     <button onclick="checkPassword('test1.html', '2019')">Go</button>
   </div>
   <div class="box">
     <h2>The Wall</h2>
-    <h3>Totally 5 questions and each question gets a ball drop.</h3>
+    <h3>5 questions + Ball Drop</h3>
     <button onclick="checkPassword('wall.html', '2020')">Go</button>
   </div>
 </div>
+
+<button class="proceed-btn" onclick="goToPage('j.html')">Proceed</button>
 
 <script>
   function checkPassword(targetPage, correctPassword) {
@@ -113,40 +137,41 @@
     }
   }
 
-  // 💰 Money-falling animation
+  function goToPage(page) {
+    window.location.href = page;
+  }
+
+  // 💸 Emoji Money Rain
   const canvas = document.getElementById("moneyFall");
   const ctx = canvas.getContext("2d");
   let width = canvas.width = window.innerWidth;
   let height = canvas.height = window.innerHeight;
 
-  const money = ['💰', '₹', '💵', '💸'];;
   const emojis = ["💰", "💶", "💸", "₹"];
-const emoji = emojis[Math.floor(Math.random() * emojis.length)];
-
+  const drops = [];
 
   for (let i = 0; i < 50; i++) {
-    money.push({
+    drops.push({
+      emoji: emojis[Math.floor(Math.random() * emojis.length)],
       x: Math.random() * width,
       y: Math.random() * height,
       speed: 1 + Math.random() * 3,
-      size: 24 + Math.random() * 10
+      size: 24 + Math.random() * 16
     });
   }
 
   function drawMoney() {
     ctx.clearRect(0, 0, width, height);
-    ctx.font = "30px Arial";
-    for (let drop of money) {
-  const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
-  ctx.font = drop.size + "px Arial";
-  ctx.fillText(randomEmoji, drop.x, drop.y);
-  drop.y += drop.speed;
-  if (drop.y > height) {
-    drop.y = -30;
-    drop.x = Math.random() * width;
-  }
-}
-
+    for (let drop of drops) {
+      ctx.font = drop.size + "px Arial";
+      ctx.fillText(drop.emoji, drop.x, drop.y);
+      drop.y += drop.speed;
+      if (drop.y > height) {
+        drop.y = -30;
+        drop.x = Math.random() * width;
+        drop.emoji = emojis[Math.floor(Math.random() * emojis.length)];
+      }
+    }
     requestAnimationFrame(drawMoney);
   }
 
