@@ -5,13 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Auction Round</title>
   <style>
-   body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(to right, #4facfe, #00f2fe);
-  display: block;
-  padding: 20px;
-}
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #4facfe, #00f2fe);
+      padding: 20px;
+      overflow-x: hidden;
+    }
 
     canvas#snow {
       position: fixed;
@@ -27,17 +27,14 @@
       margin-bottom: 30px;
       font-size: 2.5rem;
       text-align: center;
-      z-index: 1;
     }
 
     .container {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 20px;
-      width: 100%;
       max-width: 1000px;
-      margin-bottom: 40px;
-      z-index: 1;
+      margin: auto;
     }
 
     .box {
@@ -54,9 +51,14 @@
     }
 
     .box h2 {
-      margin-bottom: 15px;
+      margin-bottom: 10px;
       font-size: 1.5rem;
       color: #333;
+    }
+
+    .box h4 {
+      margin: 5px 0;
+      font-weight: normal;
     }
 
     .box button {
@@ -68,6 +70,7 @@
       border-radius: 8px;
       cursor: pointer;
       transition: background 0.3s;
+      margin-top: 10px;
     }
 
     .box button:hover {
@@ -75,6 +78,8 @@
     }
 
     .bottom-button {
+      display: block;
+      margin: 40px auto 0 auto;
       padding: 12px 30px;
       font-size: 1.1rem;
       background: #ff6b6b;
@@ -84,8 +89,6 @@
       cursor: pointer;
       box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
       transition: background 0.3s;
-      margin-top: auto;
-      z-index: 1;
     }
 
     .bottom-button:hover {
@@ -95,120 +98,122 @@
 </head>
 <body>
 
-  <!-- ✅ ADD CANVAS HERE -->
-  <canvas id="snow"></canvas>
+<canvas id="snow"></canvas>
 
-  <h1>Welcome to Auction Rounds</h1>
+<h1>Welcome to Auction Rounds</h1>
 
-  <div class="container">
-    <div class="box">
-      <h2>Hide and Seek</h2>
-      <h4>Find the player with the given Clue.</h4>
-      <button onclick="goToPage('simple.html')">Start</button>
-    </div>
-    <div class="box">
-      <h2>Hidden price</h2>
-      <h4>Enter a price for a given player.</h4>
-      <button onclick="goToPage('mm.html')">Start</button>
-    </div>
-    <div class="box">
-      <h2>Bid Spinner</h2>
-      <h4>Spin to know the bid counts.</h4>
-      <h4>[7.5]  7 refers to numbers of bids and 5 refers to the amount to be added in a single bid.</h4>
-
-      <button onclick="goToPage('mm3.html')">Start</button>
-    </div>
-    <div class="box">
-      <h2>Roll Dice </h2>
-      <h4>Spin to know your problem.</h4>
-      <h4>note: 111 stands for GIVE THE PLAYER.</h4>
-      <button onclick="goToPage('role.html')">Start</button>
-    </div>
-    <div class="box">
-      <h2>Find Who?</h2>
-      <h4>Find the player with the given Clue.</h4>
-      <button onclick="goToPage('mm2.html')">Start</button>
-    </div>
-    <div class="box">
-      <h2>Low Budget Players</h2>
-      <h4>If you want take it.</h4>
-      <button onclick="goToPage('pre.html')">Start</button>
-    </div>
+<div class="container">
+  <div class="box">
+    <h2>Hide and Seek</h2>
+    <h4>Find the player with the given Clue.</h4>
+    <button onclick="checkPassword('simple.html', '2001')">Start</button>
   </div>
+  <div class="box">
+    <h2>Hidden Price</h2>
+    <h4>Enter a price for a given player.</h4>
+    <button onclick="checkPassword('mm.html', '2002')">Start</button>
+  </div>
+  <div class="box">
+    <h2>Bid Spinner</h2>
+    <h4>Spin to know the bid counts. Format: [7.5] = 7 bids of 5cr each.</h4>
+    <button onclick="checkPassword('mm3.html', '2003')">Start</button>
+  </div>
+  <div class="box">
+    <h2>Roll Dice</h2>
+    <h4>Spin to know your problem.</h4>
+    <h4>Note: 111 means GIVE THE PLAYER.</h4>
+    <button onclick="checkPassword('role.html', '2004')">Start</button>
+  </div>
+  <div class="box">
+    <h2>Find Who?</h2>
+    <h4>Find the player with the given clue.</h4>
+    <button onclick="checkPassword('mm2.html', '2005')">Start</button>
+  </div>
+  <div class="box">
+    <h2>Low Budget Players</h2>
+    <h4>If you want, take it.</h4>
+    <button onclick="checkPassword('pre.html', '2006')">Start</button>
+  </div>
+</div>
 
-  <button class="bottom-button" onclick="goToPage('we.html')">Add amount</button>
+<button class="bottom-button" onclick="checkPassword('we.html', '2007')">Add Amount</button>
 
-  <script>
-    function goToPage(pageUrl) {
-      window.location.href = pageUrl;
+<script>
+  function checkPassword(targetPage, correctPassword) {
+    const userPassword = prompt("Enter the password to continue:");
+    if (userPassword === correctPassword) {
+      window.location.href = targetPage;
+    } else {
+      alert("Incorrect password. Access denied.");
     }
+  }
 
-    // Snowfall code
-    const canvas = document.getElementById('snow');
-    const ctx = canvas.getContext('2d');
+  // ❄️ Snowfall Effect
+  const canvas = document.getElementById('snow');
+  const ctx = canvas.getContext('2d');
 
-    let width = window.innerWidth;
-    let height = window.innerHeight;
+  let width = window.innerWidth;
+  let height = window.innerHeight;
+  canvas.width = width;
+  canvas.height = height;
+
+  const snowflakes = [];
+
+  function createSnowflakes() {
+    for (let i = 0; i < 100; i++) {
+      snowflakes.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        radius: Math.random() * 4 + 1,
+        speed: Math.random() * 1 + 0.5,
+        drift: Math.random() * 2 - 1
+      });
+    }
+  }
+
+  function drawSnowflakes() {
+    ctx.clearRect(0, 0, width, height);
+    ctx.fillStyle = 'white';
+    ctx.beginPath();
+    for (const flake of snowflakes) {
+      ctx.moveTo(flake.x, flake.y);
+      ctx.arc(flake.x, flake.y, flake.radius, 0, Math.PI * 2);
+    }
+    ctx.fill();
+    moveSnowflakes();
+  }
+
+  function moveSnowflakes() {
+    for (const flake of snowflakes) {
+      flake.y += flake.speed;
+      flake.x += flake.drift;
+
+      if (flake.y > height) {
+        flake.y = 0;
+        flake.x = Math.random() * width;
+      }
+
+      if (flake.x > width || flake.x < 0) {
+        flake.x = Math.random() * width;
+      }
+    }
+  }
+
+  function loop() {
+    drawSnowflakes();
+    requestAnimationFrame(loop);
+  }
+
+  window.addEventListener('resize', () => {
+    width = window.innerWidth;
+    height = window.innerHeight;
     canvas.width = width;
     canvas.height = height;
+  });
 
-    const snowflakes = [];
-
-    function createSnowflakes() {
-      for (let i = 0; i < 1000; i++) {
-        snowflakes.push({
-          x: Math.random() * width,
-          y: Math.random() * height,
-          radius: Math.random() * 4 + 1,
-          speed: Math.random() * 1 + 0.5,
-          drift: Math.random() * 2 - 1
-        });
-      }
-    }
-
-    function drawSnowflakes() {
-      ctx.clearRect(0, 0, width, height);
-      ctx.fillStyle = 'white';
-      ctx.beginPath();
-      for (const flake of snowflakes) {
-        ctx.moveTo(flake.x, flake.y);
-        ctx.arc(flake.x, flake.y, flake.radius, 0, Math.PI * 2);
-      }
-      ctx.fill();
-      moveSnowflakes();
-    }
-
-    function moveSnowflakes() {
-      for (const flake of snowflakes) {
-        flake.y += flake.speed;
-        flake.x += flake.drift;
-
-        if (flake.y > height) {
-          flake.y = 0;
-          flake.x = Math.random() * width;
-        }
-
-        if (flake.x > width || flake.x < 0) {
-          flake.x = Math.random() * width;
-        }
-      }
-    }
-
-    function loop() {
-      drawSnowflakes();
-      requestAnimationFrame(loop);
-    }
-
-    window.addEventListener('resize', () => {
-      width = window.innerWidth;
-      height = window.innerHeight;
-      canvas.width = width;
-      canvas.height = height;
-    });
-
-    createSnowflakes();
-    loop();
-  </script>
+  createSnowflakes();
+  loop();
+</script>
 
 </body>
 </html>
