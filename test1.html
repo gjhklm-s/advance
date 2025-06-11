@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IPL Quiz</title>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+  <style>
+    body {
+      background: linear-gradient(to right, #d0ea51, #8dc9e7);
+      font-family: Arial, sans-serif;
+     
+    }
+    h1, h3 {
+      text-align: center;
+    }
+    .question {
+      display: none;
+      background: #fff;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin: 5px 0;
+    }
+    #timer {
+      font-size: 24px;
+      color: red;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    #submitBtn {
+      display: none;
+      padding: 10px 20px;
+      font-size: 18px;
+      background-color: green;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin: 0 auto;
+      display: block;
+    }
+    #scoreboard {
+      margin-top: 30px;
+    }
+    #scoreList {
+      list-style: none;
+      padding: 0;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>IPL Cricket Quiz</h1>
+
+<select id="teamName" style="font-size: 18px; padding: 5px; width: 200px;">
+  <option value="">Select User</option>
+  <option value="Sujin">Sujin</option>
+  <option value="Ajin">Ajin</option>
+  <option value="Abi">Abi</option>
+  <option value="Asoke">Asoke</option>
+  <option value="Kamal">Kamal</option>
+  <option value="Anish">Anish</option>
+  <option value="DD">DD</option>
+  <option value="Raja">Raja</option>
+  <option value="Aswath">Aswath</option>
+  <option value="Varshan">Varshan</option>
+  <option value="rrk">rrk</option>
+  <option value="Gokul">Gokul</option>
+  <option value="Jerwin">Jerwin</option>
+</select>
+
+<div id="timer">Time Left: 7s</div>
+
+<form id="quizForm">
+  <!-- 10 Questions -->
+  <div class="question">
+    <h3>11. Which player has won the most IPL MVP (Most Valuable Player) awards?</h3>
+    <label><input type="radio" name="q11" value="a" /> Shane Watson</label>
+    <label><input type="radio" name="q11" value="b" /> Andre Russell</label>
+    <label><input type="radio" name="q11" value="c" /> Sunil Narine</label>
+    <label><input type="radio" name="q11" value="d" /> Virat Kohli</label>
+  </div>
+  
+  <div class="question">
+    <h3>12. Who is the youngest player to play in the IPL?</h3>
+    <label><input type="radio" name="q12" value="a" /> Sarfaraz Khan</label>
+    <label><input type="radio" name="q12" value="b" /> Riyan Parag</label>
+    <label><input type="radio" name="q12" value="c" /> Prayas Ray Barman</label>
+    <label><input type="radio" name="q12" value="d" /> Rahul Chahar</label>
+  </div>
+  
+  <div class="question">
+    <h3>13. Which team was suspended for two seasons (2016–2017)?</h3>
+    <label><input type="radio" name="q13" value="a" /> Rajasthan Royals</label>
+    <label><input type="radio" name="q13" value="b" /> Chennai Super Kings</label>
+    <label><input type="radio" name="q13" value="c" /> Both a and b</label>
+    <label><input type="radio" name="q13" value="d" /> Delhi Capitals</label>
+  </div>
+  
+  <div class="question">
+    <h3>14. Which bowler has the best bowling figures in a single IPL match?</h3>
+    <label><input type="radio" name="q14" value="a" /> Alzarri Joseph</label>
+    <label><input type="radio" name="q14" value="b" /> Sohail Tanvir</label>
+    <label><input type="radio" name="q14" value="c" /> Adam Zampa</label>
+    <label><input type="radio" name="q14" value="d" /> Anil Kumble</label>
+  </div>
+  
+  <div class="question">
+    <h3>15. Who captained Gujarat Titans in their debut season (2022)?</h3>
+    <label><input type="radio" name="q15" value="a" /> David Miller</label>
+    <label><input type="radio" name="q15" value="b" /> Shubman Gill</label>
+    <label><input type="radio" name="q15" value="c" /> Hardik Pandya</label>
+    <label><input type="radio" name="q15" value="d" /> Rashid Khan</label>
+  </div>
+  
+  <div class="question">
+    <h3>16. Which Indian batsman scored 973 runs in a single IPL season?</h3>
+    <label><input type="radio" name="q16" value="a" /> Rohit Sharma</label>
+    <label><input type="radio" name="q16" value="b" /> Virat Kohli</label>
+    <label><input type="radio" name="q16" value="c" /> KL Rahul</label>
+    <label><input type="radio" name="q16" value="d" /> Suresh Raina</label>
+  </div>
+  
+  <div class="question">
+    <h3>17. Who was the first player to be sold in the first-ever IPL auction?</h3>
+    <label><input type="radio" name="q17" value="a" /> MS Dhoni</label>
+    <label><input type="radio" name="q17" value="b" /> Rahul Dravid</label>
+    <label><input type="radio" name="q17" value="c" /> Shane Warne</label>
+    <label><input type="radio" name="q17" value="d" /> Sachin Tendulkar</label>
+  </div>
+  
+  <div class="question">
+    <h3>18. Which franchise has changed its name the most times?</h3>
+    <label><input type="radio" name="q18" value="a" /> Delhi Capitals</label>
+    <label><input type="radio" name="q18" value="b" /> Punjab Kings</label>
+    <label><input type="radio" name="q18" value="c" /> Sunrisers Hyderabad</label>
+    <label><input type="radio" name="q18" value="d" /> Royal Challengers Bangalore</label>
+  </div>
+  
+  <div class="question">
+    <h3>19. Who hit the longest six in IPL history (measured 125m)?</h3>
+    <label><input type="radio" name="q19" value="a" /> Ben Cutting</label>
+    <label><input type="radio" name="q19" value="b" /> Chris Gayle</label>
+    <label><input type="radio" name="q19" value="c" /> Albie Morkel</label>
+    <label><input type="radio" name="q19" value="d" /> MS Dhoni</label>
+  </div>
+  
+  <div class="question">
+    <h3>20. Which player has played for the most different IPL franchises?</h3>
+    <label><input type="radio" name="q20" value="a" /> Dinesh Karthik</label>
+    <label><input type="radio" name="q20" value="b" /> Robin Uthappa</label>
+    <label><input type="radio" name="q20" value="c" /> Aaron Finch</label>
+    <label><input type="radio" name="q20" value="d" /> Yuvraj Singh</label>
+  </div>
+  
+</form>
+
+<button id="submitBtn" onclick="submitQuiz()">Submit</button>
+
+<div id="scoreboard">
+  <h3>Live Scores</h3>
+  <ul id="scoreList"></ul>
+</div>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyB71Ps4M3pkO9Y9YbZtQtcnta8mwXR-luU",
+    authDomain: "happy-70335.firebaseapp.com",
+    databaseURL: "https://happy-70335-default-rtdb.firebaseio.com",
+    projectId: "happy-70335",
+    storageBucket: "happy-70335.appspot.com",
+    messagingSenderId: "471068695841",
+    appId: "1:471068695841:web:583eccd3c92b236d123260"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
+
+  const correctAnswers = {
+  
+  q11: "b",
+  q12: "c",
+  q13: "c",
+  q14: "a",
+  q15: "c",
+  q16: "b",
+  q17: "a",
+  q18: "b",
+  q19: "c",
+  q20: "c"
+};
+
+
+  let currentIndex = 0;
+  let timer;
+  const questions = document.querySelectorAll(".question");
+  const timerDisplay = document.getElementById("timer");
+
+  document.getElementById("teamName").addEventListener("change", function () {
+    if (this.value) {
+      nextQuestion();
+    }
+  });
+
+  function nextQuestion() {
+    if (currentIndex > 0) questions[currentIndex - 1].style.display = "none";
+    if (currentIndex < questions.length) {
+      questions[currentIndex].style.display = "block";
+      let timeLeft = 7;
+      timerDisplay.textContent = `Time Left: ${timeLeft}s`;
+
+      timer = setInterval(() => {
+        timeLeft--;
+        timerDisplay.textContent = `Time Left: ${timeLeft}s`;
+        if (timeLeft <= 0) {
+          clearInterval(timer);
+          currentIndex++;
+          nextQuestion();
+        }
+      }, 1000);
+    } else {
+      document.getElementById("submitBtn").style.display = "block";
+      timerDisplay.textContent = "Quiz Completed!";
+    }
+  }
+
+  function submitQuiz() {
+    const name = document.getElementById("teamName").value;
+    if (!name) return alert("Select your name first.");
+
+    db.ref("quizScores/" + name).once("value", snap => {
+      if (snap.exists()) {
+        alert("You already submitted!");
+        return;
+      }
+
+      let score = 0;
+      const form = document.forms["quizForm"];
+      for (let q in correctAnswers) {
+        if (form[q]?.value === correctAnswers[q]) score++;
+      }
+
+      db.ref("quizScores/" + name).set({ score });
+      alert(`Your score: ${score}/10`);
+      document.getElementById("submitBtn").disabled = true;
+    });
+  }
+
+  function updateScoreboard() {
+    db.ref("quizScores").on("value", snap => {
+      const list = document.getElementById("scoreList");
+      list.innerHTML = "";
+      const scores = snap.val();
+      if (scores) {
+        Object.entries(scores).forEach(([name, data]) => {
+          const li = document.createElement("li");
+          li.textContent = `${name}: ${data.score}/10`;
+          list.appendChild(li);
+        });
+      }
+    });
+  }
+
+  updateScoreboard();
+</script>
+
+</body>
+</html>

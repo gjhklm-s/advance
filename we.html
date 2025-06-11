@@ -1,0 +1,162 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Password Protected Page</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #43cea2, #185a9d);
+      padding: 20px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    canvas#moneyFall {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    h1 {
+      color: white;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.4);
+      margin-bottom: 30px;
+      font-size: 2.5rem;
+      text-align: center;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto 80px auto;
+    }
+
+    .box {
+      background: white;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      transition: transform 0.2s;
+    }
+
+    .box:hover {
+      transform: translateY(-5px);
+    }
+
+    .box h2 {
+      margin-bottom: 15px;
+      font-size: 1.5rem;
+      color: #333;
+    }
+
+    .box button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      background: #ff8c42;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .box button:hover {
+      background: #e56717;
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="moneyFall"></canvas>
+
+<h1>Boost your amount</h1>
+
+<div class="container">
+  <div class="box">
+    <h2>IPL quiz-1</h2>
+    <h3>Totally 10 questions and each question carries 1cr.</h3>
+    <h3>Time: 50sec for 10 question.</h3>
+    <button onclick="checkPassword('test.html', '2004')">Go</button>
+  </div>
+  <div class="box">
+    <h2>IPL quiz-2</h2>
+    <h3>Totally 10 questions and each question carries 2cr.</h3>
+    <h3>Time: 7sec for each question.</h3>
+    <button onclick="checkPassword('test1.html', '2019')">Go</button>
+  </div>
+  <div class="box">
+    <h2>The Wall</h2>
+    <h3>Totally 5 questions and each question gets a ball drop.</h3>
+    <button onclick="checkPassword('wall.html', '2020')">Go</button>
+  </div>
+</div>
+
+<script>
+  function checkPassword(targetPage, correctPassword) {
+    const userPassword = prompt("Enter the password to continue:");
+    if (userPassword === correctPassword) {
+      window.location.href = targetPage;
+    } else {
+      alert("Incorrect password. Access denied.");
+    }
+  }
+
+  // 💰 Money-falling animation
+  const canvas = document.getElementById("moneyFall");
+  const ctx = canvas.getContext("2d");
+  let width = canvas.width = window.innerWidth;
+  let height = canvas.height = window.innerHeight;
+
+  const money = ['💰', '₹', '💵', '💸'];;
+  const emojis = ["💰", "💶", "💸", "₹"];
+const emoji = emojis[Math.floor(Math.random() * emojis.length)];
+
+
+  for (let i = 0; i < 50; i++) {
+    money.push({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      speed: 1 + Math.random() * 3,
+      size: 24 + Math.random() * 10
+    });
+  }
+
+  function drawMoney() {
+    ctx.clearRect(0, 0, width, height);
+    ctx.font = "30px Arial";
+    for (let drop of money) {
+  const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+  ctx.font = drop.size + "px Arial";
+  ctx.fillText(randomEmoji, drop.x, drop.y);
+  drop.y += drop.speed;
+  if (drop.y > height) {
+    drop.y = -30;
+    drop.x = Math.random() * width;
+  }
+}
+
+    requestAnimationFrame(drawMoney);
+  }
+
+  window.addEventListener('resize', () => {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+  });
+
+  drawMoney();
+</script>
+
+</body>
+</html>
