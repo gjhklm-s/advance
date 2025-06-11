@@ -108,7 +108,15 @@
     <input type="password" id="adminPass" placeholder="Admin Password">
     <button onclick="clearRolls()">Clear Rolls</button>
   </div>
+<div class="text-center mt-6">
+    <button class="button" onclick="goToPage('n2.html')">Main Page</button>
+  </div>
 
+  <script>
+    function goToPage(page) {
+      window.location.href = page;
+    }
+  </script>
   <script>
     const firebaseConfig = {
       apiKey: "AIzaSyB71Ps4M3pkO9Y9YbZtQtcnta8mwXR-luU",
