@@ -315,7 +315,7 @@ text-align: center;
             padding: 10px 20px; 
             font-size: 16px; 
             border-radius: 5px; 
-            cursor: pointer;">Wicketkeepers</button>
+            cursor: pointer;">Round 1</button>
         <button onclick="showPlayers('Openers')"onclick="removePlayer('${team}', ${index})" 
         onmouseover="this.style.background='#6B8E23';" 
         onmouseout="this.style.background='blue';"
@@ -326,7 +326,7 @@ text-align: center;
             padding: 10px 20px; 
             font-size: 16px; 
             border-radius: 5px; 
-            cursor: pointer;">Openers</button>
+            cursor: pointer;">Round 2</button>
         <button onclick="showPlayers('MiddleOrder')" onmouseover="this.style.background='#6B8E23';" 
         onmouseout="this.style.background='blue';"
         style="
@@ -336,7 +336,7 @@ text-align: center;
             padding: 10px 20px; 
             font-size: 16px; 
             border-radius: 5px; 
-            cursor: pointer;">Middle Order</button>
+            cursor: pointer;">Round 3</button>
         <button onclick="showPlayers('AllRounders')" onmouseover="this.style.background='#6B8E23';" 
         onmouseout="this.style.background='blue';"
         style="
@@ -346,7 +346,7 @@ text-align: center;
             padding: 10px 20px; 
             font-size: 16px; 
             border-radius: 5px; 
-            cursor: pointer;">All-Rounders</button>
+            cursor: pointer;">Round 4</button>
         <button onclick="showPlayers('Spinners')" onmouseover="this.style.background='#6B8E23';" 
         onmouseout="this.style.background='blue';"
         style="
@@ -356,7 +356,7 @@ text-align: center;
             padding: 10px 20px; 
             font-size: 16px; 
             border-radius: 5px; 
-            cursor: pointer;">Spinners</button>
+            cursor: pointer;">Round 5</button>
         <button onclick="showPlayers('FastBowlers')" onmouseover="this.style.background='#6B8E23';" 
         onmouseout="this.style.background='blue';"
         style="
@@ -366,7 +366,7 @@ text-align: center;
             padding: 10px 20px; 
             font-size: 16px; 
             border-radius: 5px; 
-            cursor: pointer;">Fast Bowlers</button>
+            cursor: pointer;">Round 6</button>
         <button onclick="showPlayers('ForeignPlayers')" onmouseover="this.style.background='#6B8E23';" 
         onmouseout="this.style.background='blue';"
         style="
@@ -376,7 +376,7 @@ text-align: center;
             padding: 10px 20px; 
             font-size: 16px; 
             border-radius: 5px; 
-            cursor: pointer;">Foreign Players</button>
+            cursor: pointer;">Players-1</button>
         <button onclick="showPlayers('IndianPlayers')"onmouseover="this.style.background='#6B8E23';" 
         onmouseout="this.style.background='blue';"
         style="
@@ -387,8 +387,19 @@ text-align: center;
             font-size: 16px; 
             border-radius: 5px; 
             cursor: pointer;"
-    >Indian Players</button>
-	    <div id="playerDisplay"></div>
+    >Players-2</button>
+    <button onclick="showPlayers('Players')" onmouseover="this.style.background='#6B8E23';" 
+    onmouseout="this.style.background='blue';"
+    style="
+        background:blue; 
+        color: white; 
+        border: none; 
+        padding: 10px 20px; 
+        font-size: 16px; 
+        border-radius: 5px; 
+        cursor: pointer;">Half price</button>
+		
+<div id="playerDisplay"></div>
 <button onclick="prevPlayer()"style="
             background:grey; 
             color: white; 
@@ -405,26 +416,9 @@ text-align: center;
             font-size: 16px; 
             border-radius: 5px; 
             cursor: pointer;">➡️ Next</button>
-		
-
 
         <div id="playersList"></div>
-        <br>
-        <h2>Unsold Players</h2>
-<table id="unsoldPlayersTable" border="1" style="width: 100%; text-align: center;">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Remove</th>
-        </tr>
-    </thead>
-    <tbody></tbody>
-</table>
-
-<input type="text" id="unsoldPlayerName" placeholder="Enter Player Name" style="font-size: 18px; padding: 5px; width: 200px;">
-<button onclick="addUnsoldPlayer()" style="background:#FF4500; color: white; border: none; padding: 10px 20px; font-size: 16px; border-radius: 5px; cursor: pointer;">Add Unsold Player</button>
-		
-		<a id="hello">
+        <br><a id="hello">
         <h2>Enter Auction Details</h2>
 		<label for="teamName">Select Team:</label>
         <select id="teamName"style="font-size: 18px; padding: 5px; width: 200px;">
@@ -469,6 +463,21 @@ text-align: center;
             font-size: 16px; 
             border-radius: 5px; 
             cursor: pointer;">Add to Auction</button>
+        <h2>Unsold Players</h2>
+<table id="unsoldPlayersTable" border="1" style="width: 100%; text-align: center;">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Remove</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<input type="text" id="unsoldPlayerName" placeholder="Enter Player Name" style="font-size: 18px; padding: 5px; width: 200px;">
+<button onclick="addUnsoldPlayer()" style="background:#FF4500; color: white; border: none; padding: 10px 20px; font-size: 16px; border-radius: 5px; cursor: pointer;">Add Unsold Player</button>
+		
+		
             <video id="auctionVideo" class="scorin-video" autoplay muted playsinline style="display: none; width: 100%; height: auto;">
         <source src="au.mp4" type="video/mp4">
         Your browser does not support the video tag.
@@ -517,22 +526,6 @@ text-align: center;
             tableBody.innerHTML += row;
         });
     }
-     function updateAuctionedPlayersUI() {
-    const container = document.getElementById("auctionedPlayersContainer");
-    container.innerHTML = "";
-    
-    Object.keys(teams).forEach(team => {
-      teams[team].players.forEach(playerObj => {
-        let playerDiv = document.createElement("div");
-        playerDiv.textContent = `${playerObj.player} - ₹${playerObj.price} Cr`;
-        playerDiv.style.padding = "5px";
-        playerDiv.style.border = "1px solid black";
-        playerDiv.style.backgroundColor = "lightgray";
-        playerDiv.style.borderRadius = "5px";
-        container.appendChild(playerDiv);
-      });
-    });
-  }
     
     function removeUnsoldPlayer(index) {
         unsoldPlayers.splice(index, 1);
@@ -542,201 +535,301 @@ text-align: center;
     
     window.addEventListener("load", updateUnsoldTable);
 	const playerPoints = {
-        "Jos Buttler":10, "Quinton De Kock":9, "Nicholas Pooran":10, "Rishab Pant":10, "Phil Salt":8,"Dhoni":10, "Ishan Kishan":8, "Jonny Bairstow":8, "Rahmanullah Gurbaz":7, "KL Rahul":8, "Jitesh Sharma":7, "Anuj Rawat":7, "Devon Conway":8, "Sanju Samson":8, "KS Bharat":7, "Shai Hope":6,
-        "Ruturaj Gaikwad":8,"Rohit":10, "Shubman Gill":8, "Abhishek Sharma":9, "Yashasvi Jaiswal":8, "Sai Sudharsan":8, "Faf du Plessis":8, "David Warner":8, "Kane Williamson":6, "Daryl Mitchell":6,"Mohammad Rizwan":6,
-        "David Miller":9,"virat":10,"urvil patel":7,"Karun Nair": 6,"pryanch arya":8,"ayuesh matra":8,"vaivabu suryavanshi":9, "Suryakumar Yadav":10, "Will Jacks":8, "Jake Fraser-McGurk":9, "Dewald breavis":8,"Travis Head":10, "Shimron Hetmyer":8, "Tim David":8,"Kedar Jadhav ":6, "Heinrich Klaasen":10, "Tristan Stubbs":8, "Rovman Powell":6, "Rahul Tripathi":7, "Shivam Dube":8, "Deepak Hooda":6, "Shahrukh Khan":7, "Rinku Singh":8, "Manish Pandey":7, "Ajinkya Rahane":8, "Ayush Badoni":7, "Abdul Samad":7, "Tilak Verma":9, "Dhruv Jurel":7, "Riyan Parag":8, "Nitish Rana":6, "Rajat Patidar":8, "Abhinav Manohar":7, "Sameer Rizvi":6, "Shreyas Iyer":9, "Sarfaraz Khan":6, "Narayan Jagadeesan":6, "Prabhsimran Singh":8, "Shahbaz Ahmed":7, "Steve Smith":7, "Harry Brook":7, "Rilee Rossouw":6,
-        "Ben Stokes":7, "Sunil Narine":10, "Andre Russell":10, "Hardik Pandya":10, "Glenn Maxwell":9, "Marcus Stoinis":9, "Romario Shepherd":8, "Liam Livingstone":8, "Mitchell Marsh":8, "Cameron Green":7, "Ravindra Jadeja":8, "Rachin Ravindra":7, "Sam Curran":7, "Axar Patel":8, "Rahul Tewatia":8, "Washington Sundar":7, "Venkatesh Iyer":7, "Moeen Ali":7, "Mitchell Santner":8, "Krunal Pandya":8, "Nitish Reddy":9, "Jason Holder":6, "Mohammad Nabi":6, "Aiden Markram":7, "Glenn Phillips":7, "Vijay Shankar":7, "Shakib Al Hasan":6, "Kyle Mayers":7,
-        "Rashid Khan":10, "Ravichandran Ashwin":10, "Noor Ahmad":9, "Kuldeep Yadav":10, "Varun Chakravarthy":9, "Ravi Bishnoi":9, "Yuzvendra Chahal":10, "Rahul Chahar":8, "R. Sai Kishore":6, "Mayank Markande":6, "Maheesh Theekshana":7, "Wanindu Hasaranga":7, "Adam Zampa":6, "Shreyas Gopal":6, "Karn Sharma":7, "Krishnappa Gowtham":6, "Adil Rashid":6,
-        "Matheesha Pathirana":10, "Mitchell Starc":10, "Kagiso Rabada":9, "Anrich Nortje":9, "Trent Boult":10, "Jasprit Bumrah":10, "Arshdeep Singh":9, "Jofra Archer":9, "Bhuvneshwar Kumar":10, "Josh Hazlewood":9, "Mohammad Shami":9, "Mohammad Siraj":8, "T. Natarajan":8, "Naveen-ul-Haq":7, "Pat Cummins":10, "Marco Jansen":9, "Mohit Sharma":8, "Shardul Thakur":6, "Ishant Sharma":8, "Prasidh Krishna":9, "Umesh Yadav":7, "Umran Malik":6, "Avesh Khan":7, "Deepak Chahar":8, "Nathan Ellis":7, "Lockie Ferguson":6, "Sandeep Sharma":7, "Tushar Deshpande":9, "Nuwan Thushara":7, "Harshal Patel":8, "Khaleel Ahmed":7, "Alzarri Joseph":6, "Tim Southee":6, "Chris Jordan":6, "Gerald Coetzee":7, "Spencer Johnson":6,
-        "Tom Latham":6,"Sam Billings":6,"Reeza Hendricks":6,"Dwaine Pretorius":6,"Ish Sodhi":6,"Mark Wood":7,"Babar Azam":7,"Shaheen Afridi":7,"Chris Woakes":6,"Lungi Ngidi":7,"James Neesham":6,"Tom Curran":6,"Evin Lewis":7,"Jason Behrendorff":6,"Matthew Wade":6,"Jason Roy":6,
-        "Mayank Agarwal":8,"Devdutt Padikkal":7,"Kamlesh Nagarkoti":6,"Shivam Mavi":6,"Suyash Sharma":6,"Lalit Yadav":6,"Chetan Sakariya":7,"Harshit Rana":8,"Arjun Tendulkar":6,"Yash Dayal":8,"Sandeep Warrier":6,"Suyash Prabhudessai":6
+        "Jos Buttler":10,"Deepak Chahar":8,"Krishnappa Gowtham":6,"Sunil Narine":10,"T. Natarajan":8,"David Warner":8,"Venkatesh Iyer":7,"Mohammad Siraj":8,"Matheesha Pathirana":10,"Ravi Bishnoi":9,"Daryl Mitchell":6,"KS Bharat":7,"Mayank Markande":6,"Mayank Agarwal":8,"Rahul Tewatia":8,"Tim David":8,"Travis Head":10,"Rahul Chahar":8,"Mohammad Rizwan":6,"Rinku Singh":8,
+        
+"Rishab Pant":10,"virat":10,"Shreyas Iyer":9,"Faf du Plessis":8,"Axar Patel":8,"Dhruv Jurel":7,"Ben Stokes":7,"KL Rahul":8,"Rachin Ravindra":7,"Nitish Reddy":9,"Ravindra Jadeja":8,"Dewald breavis":8,"Yashasvi Jaiswal":8,"Shahrukh Khan":7, "Shivam Dube":8, "Washington Sundar":7,"Romario Shepherd":8,"Ravichandran Ashwin":10,
+"Yuzvendra Chahal":10,"Jofra Archer":9,"Jasprit Bumrah":10,"urvil patel":7,"ayuesh matra":8, "Will Jacks":8,"Jonny Bairstow":8,"Rovman Powell":6, "Rahul Tripathi":7,  "Deepak Hooda":6,"Lungi Ngidi":7,"Mark Wood":7,
        
+"Nicholas Pooran":10, "Phil Salt":8,"Sai Sudharsan":8,"Abhishek Sharma":9,"Suryakumar Yadav":10,"Umran Malik":6,"pryanch arya":8,"Rajat Patidar":8,"vaivabu suryavanshi":9,
+"Cameron Green":7,"Kuldeep Yadav":10,"Maheesh Theekshana":7,"Moeen Ali":7,"Mitchell Starc":10,"Trent Boult":10,"Tristan Stubbs":8,"Shubman Gill":8, "Shardul Thakur":6,"Suyash Sharma":6,"Sam Curran":7,
+
+"Sanju Samson":8, "Sameer Rizvi":6,"Ruturaj Gaikwad":8,"Steve Smith":7,"Shimron Hetmyer":8, "Krunal Pandya":8,"Anrich Nortje":9,"Karn Sharma":7,"Dhoni":10,"Quinton De Kock":9,"Ishan Kishan":8, "David Miller":9,"Naveen-ul-Haq":7,"Noor Ahmad":9,"Gerald Coetzee":7,"Rohit":10,"Devon Conway":8,"Mitchell Marsh":8, "Glenn Phillips":7,"Mohammad Shami":9,
+
+        "Sandeep Sharma":7,"Marcus Stoinis":9, "Avesh Khan":7,"Marco Jansen":9,"Mohit Sharma":8,"Karun Nair": 6,"Prasidh Krishna":9,"Glenn Maxwell":9,"Ishant Sharma":8,"Tushar Deshpande":9,"Ajinkya Rahane":8,"Pat Cummins":10,"Josh Hazlewood":9,"Jitesh Sharma":7,
+
+        "Shai Hope":6,"Shahbaz Ahmed":7,"Rahmanullah Gurbaz":7,   "Anuj Rawat":7,                "Kane Williamson":6,"Lalit Yadav":6,"Devdutt Padikkal":7,"Kedar Jadhav ":6, "Manish Pandey":7,"Harshal Patel":8,"Ayush Badoni":7, "Abdul Samad":7,"Sarfaraz Khan":6,"Nitish Rana":6,"Yash Dayal":8,"Kyle Mayers":7,  "Harry Brook":7,"Lockie Ferguson":6,   "Nuwan Thushara":7,  "Khaleel Ahmed":7,
+
+        "Jake Fraser-McGurk":9, "Heinrich Klaasen":10,"Tilak Verma":9, "Andre Russell":10, "Hardik Pandya":10,   "Liam Livingstone":8,           "Rashid Khan":10,    "Varun Chakravarthy":9,             "Kagiso Rabada":9,    "Arshdeep Singh":9,  "Bhuvneshwar Kumar":10,        "Umesh Yadav":7,"Riyan Parag":8,  "Wanindu Hasaranga":7, "Prabhsimran Singh":8,"Harshit Rana":8,"Mitchell Santner":8,"Evin Lewis":7,"Nathan Ellis":7,"Aiden Markram":7,
+
+        "Tom Latham":6,"Sam Billings":6,"Reeza Hendricks":6,"Dwaine Pretorius":6,"Ish Sodhi":6,"Babar Azam":7,"Shaheen Afridi":7,"Chris Woakes":6,"James Neesham":6,"Tom Curran":6,"Jason Behrendorff":6,"Matthew Wade":6,"Jason Roy":6,
+        "Kamlesh Nagarkoti":6,"Shivam Mavi":6,"Chetan Sakariya":7,"Arjun Tendulkar":6,"Sandeep Warrier":6,"Suyash Prabhudessai":6,    "Abhinav Manohar":7,    "Narayan Jagadeesan":6,   "Rilee Rossouw":6,   "Jason Holder":6, "Mohammad Nabi":6, "Vijay Shankar":7, "Shakib Al Hasan":6,"R. Sai Kishore":6,   "Adam Zampa":6, "Shreyas Gopal":6,   "Adil Rashid":6,  "Alzarri Joseph":6, "Tim Southee":6, "Chris Jordan":6,  "Spencer Johnson":6,
+        
+  "Kieron Pollard":10,
+  "Suresh Raina": 9,
+  "AB de Villiers": 10,
+  "Chris Gayle": 10,
+  "Dwayne Bravo": 9,
+  "Lasith Malinga": 9,
+  "Harbhajan Singh": 8,
+  "Shane Watson": 9,
+  "Imran Tahir": 8,
+  "Gautam Gambhir": 8,
+  "Yuvraj Singh": 8,
+  "Zaheer Khan": 7,
+  "Brett Lee": 8,
+  "Jacques Kallis": 9,
+  "Parthiv Patel": 7,
+  "Ashish Nehra": 7,
+  "RP Singh": 6,
+  "Ambati Rayudu": 8,
+  "Mitchell Johnson": 8,
+  "Michael Hussey": 8,
+  "Brendon McCullum": 9,
+  "Rahul Dravid": 9,
+  "Virender Sehwag": 9,
+  "Matthew Hayden": 8,
+  "Anil Kumble": 9,
+  "Sachin Tendulkar": 8,
+  "Adam Gilchrist": 9,
+  "Muttiah Muralitharan": 9,
+  "Ricky Ponting": 8,
+  "Kevin Pietersen": 8
+
+
     };
 	const players = {
-            Wicketkeepers: [{ name:"Jos Buttler",image: "jos.png" }, { name:"Quinton De Kock",image: "https://github.com/gjhklm-s/advance/releases/download/qdk/qdk.png"},  { name: "Nicholas Pooran", image: "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.140502.png" },
-    { name: "Rishab Pant", image: "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.140645.png" },
-    { name: "Phil Salt", image: "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.140719.png" },
-    { name: "Dhoni", image: "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.141108.png" },
-    { name: "Ishan Kishan", image: "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.141208.png" },
-    { name: "Jonny Bairstow", image: "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.141258.png" },
-    { name: "Rahmanullah Gurbaz", image: "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.141324.png" },
-    { name: "KL Rahul", image: "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.141347.png" },
-    { name: "Jitesh Sharma", image: "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.141502.png" },
-    { name: "Anuj Rawat", image: "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.141601.png" },
-    { name: "Devon Conway", image: "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.141622.png" },
-    { name: "Sanju Samson", image: "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.141647.png" },
-    { name: "KS Bharat", image: "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.141736.png" },
-    { name: "Shai Hope", image: "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.141759.png" }
-],
-            Openers: [ { "name": "Ruturaj Gaikwad", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.183245.png" },
-  { "name": "Rohit", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.183311.png" },
-  { "name": "Shubman Gill", "image": "gill.png" },
-  { "name": "Abhishek Sharma", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.183347.png" },
-  { "name": "Yashasvi Jaiswal", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.183422.png" },
-  { "name": "Sai Sudharsan", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.183530.png" },
-  { "name": "Faf du Plessis", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.183554.png" },
+            Wicketkeepers:  [
+  { "name": "Jos Buttler", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201257.png" },
+  { "name": "Deepak Chahar", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201626.png" },
+  { "name": "Krishnappa Gowtham", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.200239.png" },
+  { "name": "Sunil Narine", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193027.png" },
+  { "name": "T. Natarajan", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201334.png" },
   { "name": "David Warner", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.183648.png" },
-  { "name": "Kane Williamson", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.183725.png" },
+  { "name": "Venkatesh Iyer", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193524.png" },
+  { "name": "Mohammad Siraj", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201314.png" },
+  { "name": "Matheesha Pathirana", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201013.png" },
+  { "name": "Ravi Bishnoi", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.195806.png" },
   { "name": "Daryl Mitchell", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.183745.png" },
-  { "name": "Mohammad Rizwan", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.183808.png" }],
-            MiddleOrder: [{ "name": "David Miller", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.184738.png" },
-			  {"name":"Dewald breavis","image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.184738.png"},
-			  {"name":"urvil patel","image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.184738.png"},
-			   {"name":"Karun Nair","image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.184738.png"},
-			  {"name":"pryanch arya","image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.184738.png"},
-			  {"name":"ayuesh matra","image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.184738.png"},
-			  {"name":"vaivabu suryavanshi","image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.184738.png"},
-			 
-  { "name": "Virat", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.184806.png" },
-  { "name": "Suryakumar Yadav", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.184827.png" },
-  { "name": "Will Jacks", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.184902.png" },
-  { "name": "Jake Fraser-McGurk", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.184920.png" },
-  { "name": "Travis Head", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.184945.png" },
-  { "name": "Shimron Hetmyer", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.185004.png" },
+  { "name": "KS Bharat", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.141736.png" },
+  { "name": "Mayank Markande", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.200014.png" },
+  { "name": "Mayank Agarwal", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.204108.png" },
+  { "name": "Rahul Tewatia", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193422.png" },
   { "name": "Tim David", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.185037.png" },
-  { "name": "Kedar Jadhav", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.185106.png" },
-  { "name": "Heinrich Klaasen", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.185129.png" },
-  { "name": "Tristan Stubbs", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.185150.png" },
+  { "name": "Travis Head", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.184945.png" },
+  { "name": "Rahul Chahar", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.195905.png" },
+  { "name": "Mohammad Rizwan", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.183808.png" },
+  { "name": "Rinku Singh", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.185434.png" }
+],
+
+            Openers: [
+  { "name": "Rishab Pant", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.140645.png" },
+  { "name": "virat", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.184806.png" },
+  { "name": "Shreyas Iyer", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.190542.png" },
+  { "name": "Faf du Plessis", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.183554.png" },
+  { "name": "Axar Patel", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193359.png" },
+  { "name": "Dhruv Jurel", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.190333.png" },
+  { "name": "Ben Stokes", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193008.png" },
+  { "name": "KL Rahul", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.141347.png" },
+  { "name": "Rachin Ravindra", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193326.png" },
+  { "name": "Nitish Reddy", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193713.png" },
+  { "name": "Ravindra Jadeja", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193307.png" },
+  { "name": "Dewald breavis", "image": null },
+  { "name": "Yashasvi Jaiswal", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.183422.png" },
+  { "name": "Shahrukh Khan", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.185406.png" },
+  { "name": "Shivam Dube", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.185300.png" },
+  { "name": "Washington Sundar", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193437.png" },
+  { "name": "Romario Shepherd", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193201.png" },
+  { "name": "Ravichandran Ashwin", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.195653.png" },
+  { "name": "Yuzvendra Chahal", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.195821.png" },
+  { "name": "Jofra Archer", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201202.png" },
+  { "name": "Jasprit Bumrah", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201132.png" },
+  { "name": "urvil patel", "image": null },
+  { "name": "ayuesh matra", "image": null },
+  { "name": "Will Jacks", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.184902.png" },
+  { "name": "Jonny Bairstow", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.141258.png" },
+  
   { "name": "Rovman Powell", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.185221.png" },
   { "name": "Rahul Tripathi", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.185245.png" },
-  { "name": "Shivam Dube", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.185300.png" },
   { "name": "Deepak Hooda", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.185324.png" },
-  { "name": "Shahrukh Khan", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.185406.png" },
-  { "name": "Rinku Singh", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.185434.png" },
-  { "name": "Manish Pandey", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.190106.png" },
-  { "name": "Ajinkya Rahane", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.190125.png" },
-  { "name": "Ayush Badoni", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.190157.png" },
-  { "name": "Abdul Samad", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.190248.png" },
-  { "name": "Tilak Verma", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.190311.png" },
-  { "name": "Dhruv Jurel", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.190333.png" },
-  { "name": "Riyan Parag", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.190352.png" },
-  { "name": "Nitish Rana", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.190408.png" },
-  { "name": "Rajat Patidar", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.190426.png" },
-  { "name": "Abhinav Manohar", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.190455.png" },
-  { "name": "Sameer Rizvi", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.190514.png" },
-  { "name": "Shreyas Iyer", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.190542.png" },
-  { "name": "Sarfaraz Khan", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.190605.png" },
-  { "name": "Narayan Jagadeesan", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.190625.png" },
-  { "name": "Prabhsimran Singh", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.190648.png" },
-  { "name": "Shahbaz Ahmed", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.190736.png" },
-  { "name": "Steve Smith", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.190759.png" },
-  { "name": "Harry Brook", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.190817.png" },
-  { "name": "Rilee Rossouw", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.190843.png" }
-],
-            AllRounders: [ { "name": "Ben Stokes", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193008.png" },
-  { "name": "Sunil Narine", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193027.png" },
-  { "name": "Andre Russell", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193053.png" },
-  { "name": "Hardik Pandya", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193112.png" },
-  { "name": "Glenn Maxwell", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193127.png" },
-  { "name": "Marcus Stoinis", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193143.png" },
-  { "name": "Romario Shepherd", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193201.png" },
-  { "name": "Liam Livingstone", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193217.png" },
-  { "name": "Mitchell Marsh", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193236.png" },
-  { "name": "Cameron Green", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193251.png" },
-  { "name": "Ravindra Jadeja", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193307.png" },
-  { "name": "Rachin Ravindra", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193326.png" },
-  { "name": "Sam Curran", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193342.png" },
-  { "name": "Axar Patel", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193359.png" },
-  { "name": "Rahul Tewatia", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193422.png" },
-  { "name": "Washington Sundar", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193437.png" },
-  { "name": "Venkatesh Iyer", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193524.png" },
-  { "name": "Moeen Ali", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193540.png" },
-  { "name": "Mitchell Santner", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193611.png" },
-  { "name": "Krunal Pandya", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193642.png" },
-  { "name": "Nitish Reddy", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193713.png" },
-  { "name": "Jason Holder", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193736.png" },
-  { "name": "Mohammad Nabi", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193751.png" },
-  { "name": "Aiden Markram", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193813.png" },
-  { "name": "Glenn Phillips", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193852.png" },
-  { "name": "Vijay Shankar", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193911.png" },
-  { "name": "Shakib Al Hasan", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193939.png" },
-  { "name": "Kyle Mayers", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193955.png" }
-],
-            Spinners: [ { "name": "Rashid Khan", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.195629.png" },
-  { "name": "Ravichandran Ashwin", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.195653.png" },
-  { "name": "Noor Ahmad", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.195708.png" },
-  { "name": "Kuldeep Yadav", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.195728.png" },
-  { "name": "Varun Chakravarthy", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.195749.png" },
-  { "name": "Ravi Bishnoi", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.195806.png" },
-  { "name": "Yuzvendra Chahal", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.195821.png" },
-  { "name": "Rahul Chahar", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.195905.png" },
-  { "name": "R. Sai Kishore", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.195928.png" },
-  { "name": "Mayank Markande", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.200014.png" },
-  { "name": "Maheesh Theekshana", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.200034.png" },
-  { "name": "Wanindu Hasaranga", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.200050.png" },
-  { "name": "Adam Zampa", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.200104.png" },
-  { "name": "Shreyas Gopal", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.200128.png" },
-  { "name": "Karn Sharma", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.200153.png" },
-  { "name": "Krishnappa Gowtham", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.200239.png" },
-  { "name": "Adil Rashid", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.200256.png" }
-    ],
-            FastBowlers: [ { "name": "Matheesha Pathirana", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201013.png" },
-  { "name": "Mitchell Starc", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201031.png" },
-  { "name": "Kagiso Rabada", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201046.png" },
-  { "name": "Anrich Nortje", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201101.png" },
-  { "name": "Trent Boult", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201115.png" },
-  { "name": "Jasprit Bumrah", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201132.png" },
-  { "name": "Arshdeep Singh", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201144.png" },
-  { "name": "Jofra Archer", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201202.png" },
-  { "name": "Bhuvneshwar Kumar", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201219.png" },
-  { "name": "Josh Hazlewood", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201233.png" },
-  { "name": "Mohammad Shami", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201249.png" },
-  { "name": "Mohammad Siraj", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201314.png" },
-  { "name": "T. Natarajan", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201334.png" },
-  { "name": "Naveen-ul-Haq", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201348.png" },
-  { "name": "Pat Cummins", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201405.png" },
-  { "name": "Marco Jansen", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201417.png" },
-  { "name": "Mohit Sharma", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201435.png" },
-  { "name": "Shardul Thakur", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201450.png" },
-  { "name": "Ishant Sharma", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201507.png" },
-  { "name": "Prasidh Krishna", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201526.png" },
-  { "name": "Umesh Yadav", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201540.png" },
-  { "name": "Umran Malik", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201555.png" },
-  { "name": "Avesh Khan", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201608.png" },
-  { "name": "Deepak Chahar", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201626.png" },
-  { "name": "Nathan Ellis", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201640.png" },
-  { "name": "Lockie Ferguson", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201711.png" },
-  { "name": "Sandeep Sharma", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201740.png" },
-  { "name": "Tushar Deshpande", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201759.png" },
-  { "name": "Nuwan Thushara", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201815.png" },
-  { "name": "Harshal Patel", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201829.png" },
-  { "name": "Khaleel Ahmed", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201844.png" },
-  { "name": "Alzarri Joseph", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201910.png" },
-  { "name": "Tim Southee", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201941.png" },
-  { "name": "Chris Jordan", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201958.png" },
-  { "name": "Gerald Coetzee", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.202012.png" },
-  { "name": "Spencer Johnson", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.202034.png" }
-],
-        ForeignPlayers:[{ "name": "Tom Latham", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.202956.png" },
-  { "name": "Sam Billings", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.203014.png" },
-  { "name": "Reeza Hendricks", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.203030.png" },
-  { "name": "Dwaine Pretorius", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.203104.png" },
-  { "name": "Ish Sodhi", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.203118.png" },
-  { "name": "Mark Wood", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.203135.png" },
-  { "name": "Babar Azam", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.203153.png" },
-  { "name": "Shaheen Afridi", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.203209.png" },
-  { "name": "Chris Woakes", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.203238.png" },
   { "name": "Lungi Ngidi", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.203252.png" },
-  { "name": "James Neesham", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.203307.png" },
-  { "name": "Tom Curran", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.203325.png" },
-  { "name": "Evin Lewis", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.203359.png" },
-  { "name": "Jason Behrendorff", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.203414.png" },
-  { "name": "Matthew Wade", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.203435.png" },
-  { "name": "Jason Roy", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.203450.png" }
-],
-        IndianPlayers:[ { "name": "Mayank Agarwal", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.204108.png" },
-  { "name": "Devdutt Padikkal", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.204135.png" },
-  { "name": "Kamlesh Nagarkoti", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.204153.png" },
-  { "name": "Shivam Mavi", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.204209.png" },
-  { "name": "Suyash Sharma", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.204227.png" },
-  { "name": "Lalit Yadav", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.204259.png" },
-  { "name": "Chetan Sakariya", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.204320.png" },
-  { "name": "Harshit Rana", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.204338.png" },
-  { "name": "Arjun Tendulkar", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.204355.png" },
-  { "name": "Yash Dayal", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.204410.png" },
-  { "name": "Sandeep Warrier", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.204433.png" },
-  { "name": "Suyash Prabhudessai", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.204457.png" }
+  { "name": "Mark Wood", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.203135.png" }
+
+
 ]
+,
+            MiddleOrder: [
+  { "name": "Nicholas Pooran",      "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.140502.png" },
+  { "name": "Phil Salt",            "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.140719.png" },
+  { "name": "Sai Sudharsan",        "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.183530.png" },
+  { "name": "Abhishek Sharma",      "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.183347.png" },
+  { "name": "Suryakumar Yadav",     "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.184827.png" },
+  { "name": "Umran Malik",          "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201555.png" },
+  { "name": "pryanch arya",         "image": null },
+  { "name": "Rajat Patidar",        "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.190426.png" },
+  { "name": "vaivabu suryavanshi",  "image": null },
+  
+  { "name": "Cameron Green",        "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193251.png" },
+  { "name": "Kuldeep Yadav",        "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.195728.png" },
+  { "name": "Maheesh Theekshana",   "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.200034.png" },
+  { "name": "Moeen Ali",            "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193540.png" },
+  { "name": "Mitchell Starc",       "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201031.png" },
+  { "name": "Trent Boult",          "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201115.png" },
+  { "name": "Tristan Stubbs",       "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.185150.png" },
+  { "name": "Shubman Gill",         "image": "gill.png" },
+  { "name": "Shardul Thakur",       "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201450.png" },
+  { "name": "Suyash Sharma",        "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.204227.png" },
+  { "name": "Sam Curran",           "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193342.png" }
+]
+,
+            AllRounders: [
+  { "name": "Sanju Samson",        "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.141647.png" },
+  { "name": "Sameer Rizvi",        "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.190514.png" },
+  { "name": "Ruturaj Gaikwad",     "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.183245.png" },
+  { "name": "Steve Smith",         "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.190759.png" },
+  { "name": "Shimron Hetmyer",     "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.185004.png" },
+  { "name": "Krunal Pandya",       "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193642.png" },
+  { "name": "Anrich Nortje",       "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201101.png" },
+  { "name": "Karn Sharma",         "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.200153.png" },
+  { "name": "Dhoni",               "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.141108.png" },
+  { "name": "Quinton De Kock",     "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/qdk.png" },
+  { "name": "Ishan Kishan",        "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.141208.png" },
+  { "name": "David Miller",        "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.184738.png" },
+  { "name": "Naveen-ul-Haq",       "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201348.png" },
+  { "name": "Noor Ahmad",          "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.195708.png" },
+  { "name": "Gerald Coetzee",      "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.202012.png" },
+  { "name": "Rohit",               "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.183311.png" },
+  { "name": "Devon Conway",        "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.141622.png" },
+  { "name": "Mitchell Marsh",      "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193236.png" },
+  { "name": "Glenn Phillips",      "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193852.png" },
+  { "name": "Mohammad Shami",      "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201249.png" }
+]
+,
+            Spinners: [
+  { "name": "Sandeep Sharma",     "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201740.png" },
+  { "name": "Marcus Stoinis",     "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193143.png" },
+  { "name": "Avesh Khan",         "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201608.png" },
+  { "name": "Marco Jansen",       "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201417.png" },
+  { "name": "Mohit Sharma",       "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201435.png" },
+  { "name": "Karun Nair",         "image": null },
+  { "name": "Prasidh Krishna",    "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201526.png" },
+  { "name": "Glenn Maxwell",      "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193127.png" },
+  { "name": "Ishant Sharma",      "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201507.png" },
+  { "name": "Tushar Deshpande",   "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201759.png" },
+  { "name": "Ajinkya Rahane",     "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.190125.png" },
+  { "name": "Pat Cummins",        "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201405.png" },
+  { "name": "Josh Hazlewood",     "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201233.png" },
+  { "name": "Jitesh Sharma",      "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.141502.png" }
+]
+,
+            FastBowlers:[
+  { "name": "Shai Hope",           "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.141759.png" },
+  { "name": "Shahbaz Ahmed",       "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.190736.png" },
+  { "name": "Rahmanullah Gurbaz",  "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.141324.png" },
+  { "name": "Anuj Rawat",          "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.141601.png" },
+  { "name": "Kane Williamson",     "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.183725.png" },
+  { "name": "Lalit Yadav",         "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.204259.png" },
+  { "name": "Devdutt Padikkal",    "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.204135.png" },
+  { "name": "Kedar Jadhav ",       "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.185106.png" },
+  { "name": "Manish Pandey",       "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.190106.png" },
+  { "name": "Harshal Patel",       "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201829.png" },
+  { "name": "Ayush Badoni",        "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.190157.png" },
+  { "name": "Abdul Samad",         "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.190248.png" },
+  { "name": "Sarfaraz Khan",       "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.190605.png" },
+  { "name": "Nitish Rana",         "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.190408.png" },
+  { "name": "Yash Dayal",          "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.204410.png" },
+  { "name": "Kyle Mayers",         "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193955.png" },
+  { "name": "Harry Brook",         "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.190817.png" },
+  { "name": "Lockie Ferguson",     "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201711.png" },
+  { "name": "Nuwan Thushara",      "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201815.png" },
+  { "name": "Khaleel Ahmed",       "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201844.png" }
+]
+,
+        ForeignPlayers:[
+  { "name": "Jake Fraser-McGurk",    "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.184920.png" },
+  { "name": "Heinrich Klaasen",       "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.185129.png" },
+  { "name": "Tilak Verma",            "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.190311.png" },
+  { "name": "Andre Russell",          "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193053.png" },
+  { "name": "Hardik Pandya",          "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193112.png" },
+  { "name": "Liam Livingstone",       "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193217.png" },
+  { "name": "Rashid Khan",            "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.195629.png" },
+  { "name": "Varun Chakravarthy",     "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.195749.png" },
+  { "name": "Kagiso Rabada",          "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201046.png" },
+  { "name": "Arshdeep Singh",         "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201144.png" },
+  { "name": "Bhuvneshwar Kumar",      "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201219.png" },
+  { "name": "Umesh Yadav",            "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201540.png" },
+  { "name": "Riyan Parag",            "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.190352.png" },
+  { "name": "Wanindu Hasaranga",      "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.200050.png" },
+  { "name": "Prabhsimran Singh",      "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.190648.png" },
+  { "name": "Harshit Rana",           "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.204338.png" },
+  { "name": "Mitchell Santner",       "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193611.png" },
+  { "name": "Evin Lewis",             "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.203359.png" },
+  { "name": "Nathan Ellis",           "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201640.png" },
+  { "name": "Aiden Markram",          "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193813.png" }
+]
+,
+        IndianPlayers:[
+  { "name": "Tom Latham",           "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.202956.png" },
+  { "name": "Sam Billings",         "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.203014.png" },
+  { "name": "Reeza Hendricks",      "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.203030.png" },
+  { "name": "Dwaine Pretorius",     "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.203104.png" },
+  { "name": "Ish Sodhi",            "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.203118.png" },
+ 
+  { "name": "Babar Azam",           "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.203153.png" },
+  { "name": "Shaheen Afridi",       "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.203209.png" },
+  { "name": "Chris Woakes",         "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.203238.png" },
+  
+  { "name": "James Neesham",        "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.203307.png" },
+  { "name": "Tom Curran",           "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.203325.png" },
+  { "name": "Jason Behrendorff",    "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.203414.png" },
+  { "name": "Matthew Wade",         "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.203435.png" },
+  { "name": "Jason Roy",            "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.203450.png" },
+  { "name": "Kamlesh Nagarkoti",    "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.204153.png" },
+  { "name": "Shivam Mavi",          "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.204209.png" },
+  { "name": "Chetan Sakariya",      "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.204320.png" },
+  { "name": "Arjun Tendulkar",      "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.204355.png" },
+  { "name": "Sandeep Warrier",      "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.204433.png" },
+  { "name": "Suyash Prabhudessai",  "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.204457.png" },
+  
+  
+  { "name": "Abhinav Manohar",      "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.190455.png" },
+  { "name": "Narayan Jagadeesan",   "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.190625.png" },
+  { "name": "Rilee Rossouw",        "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.190843.png" },
+  { "name": "Jason Holder",         "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193736.png" },
+  { "name": "Mohammad Nabi",        "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193751.png" },
+  { "name": "Vijay Shankar",        "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193911.png" },
+  { "name": "Shakib Al Hasan",      "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.193939.png" },
+  { "name": "R. Sai Kishore",       "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.195928.png" },
+  { "name": "Adam Zampa",          "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.200104.png" },
+  { "name": "Shreyas Gopal",        "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.200128.png" },
+  { "name": "Adil Rashid",          "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.200256.png" },
+  { "name": "Alzarri Joseph",       "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201910.png" },
+  { "name": "Tim Southee",          "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201941.png" },
+  { "name": "Chris Jordan",         "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.201958.png" },
+  { "name": "Spencer Johnson",      "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-03-16.202034.png" }
+],
+Players:[
+{ "name": "Kieron Pollard", "image": "https://github.com/gjhklm-s/advance/releases/download/qdk/Screenshot.2025-06-12.191743.png" },
+  { "name": "Suresh Raina", "image": "https://i.imgur.com/YHf2ZxE.png" },
+  { "name": "AB de Villiers", "image": "https://i.imgur.com/NsZKLcf.png" },
+  { "name": "Chris Gayle", "image": "https://i.imgur.com/jXk9K0R.png" },
+  { "name": "Dwayne Bravo", "image": "https://i.imgur.com/qb6WrGi.png" },
+  { "name": "Lasith Malinga", "image": "https://i.imgur.com/k2LdQYe.png" },
+  { "name": "Harbhajan Singh", "image": "https://i.imgur.com/5Oe3Eje.png" },
+  { "name": "Shane Watson", "image": "https://i.imgur.com/Oa5V2A4.png" },
+  { "name": "Imran Tahir", "image": "https://i.imgur.com/9NHtI5g.png" },
+  { "name": "Gautam Gambhir", "image": "https://i.imgur.com/1fVkb6H.png" },
+  { "name": "Yuvraj Singh", "image": "https://i.imgur.com/WJbICxz.png" },
+  { "name": "Zaheer Khan", "image": "https://i.imgur.com/ELTJtgr.png" },
+  { "name": "Brett Lee", "image": "https://i.imgur.com/yexFCSM.png" },
+  { "name": "Jacques Kallis", "image": "https://i.imgur.com/nrTyNbi.png" },
+  { "name": "Parthiv Patel", "image": "https://i.imgur.com/T9LPaS7.png" },
+  { "name": "Ashish Nehra", "image": "https://i.imgur.com/4CMwExR.png" },
+  { "name": "RP Singh", "image": "https://i.imgur.com/TWuXSPq.png" },
+  { "name":"Ambati Rayudu", "image": "https://i.imgur.com/M3XKJq9.png" },
+  { "name": "Mitchell Johnson", "image": "https://i.imgur.com/nvOkHrk.png" },
+  { "name": "Michael Hussey", "image": "https://i.imgur.com/5P8bqsm.png" },
+  { "name": "Brendon McCullum", "image": "https://i.imgur.com/yx3KmRE.png" },
+  { "name": "Rahul Dravid", "image": "https://i.imgur.com/WFVuCku.png" },
+  { "name": "Virender Sehwag", "image": "https://i.imgur.com/sZ8pKcO.png" },
+  { "name": "Matthew Hayden", "image": "https://i.imgur.com/1nAcB5V.png" },
+  { "name": "Anil Kumble", "image": "https://i.imgur.com/2YuLoI2.png" },
+  { "name": "Sachin Tendulkar", "image": "https://i.imgur.com/oR0xdDt.png" },
+  { "name": "Adam Gilchrist", "image": "https://i.imgur.com/4g94Rkx.png" },
+  { "name": "Muttiah Muralitharan", "image": "https://i.imgur.com/ZAYcK4u.png" },
+  { "name": "Ricky Ponting", "image": "https://i.imgur.com/UEm7a3P.png" },
+  { "name": "Kevin Pietersen", "image": "https://i.imgur.com/y3X8wkr.png" }
+]
+
 		};
 		function showPlayers(category) {
             document.getElementById("playersList").innerHTML =  `<h2>${category.replace(/([A-Z])/g, ' $1')}</h2><ol>` + players[category].map(player => `<li>${player}</li>`).join('') + `</ol>`;
