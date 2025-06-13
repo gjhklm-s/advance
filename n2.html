@@ -306,16 +306,37 @@ text-align: center;
 </div>
     </div>  
 	<h2>Players List</h2>
-        <button onclick="showPlayers('Wicketkeepers')" onmouseover="this.style.background='#6B8E23';" 
-        onmouseout="this.style.background='blue';"
-        style="
-            background:blue; 
-            color: white; 
-            border: none; 
-            padding: 10px 20px; 
-            font-size: 16px; 
-            border-radius: 5px; 
-            cursor: pointer;">Round 1</button>
+       <button 
+    onclick="heckPasswordAndShow()" 
+    onmouseover="this.style.background='#6B8E23';" 
+    onmouseout="this.style.background='blue';" 
+    style="
+      background:blue;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;">
+    Round 1
+  </button>
+  
+  <script>
+    function heckPasswordAndShow() {
+      const password = prompt("Enter password to unlock Round 1:");
+      if (password === "7") { // You can change "7" to your actual password
+        showPlayers('Wicketkeepers');
+      } else {
+        alert("Incorrect password. Access denied.");
+      }
+    }
+  
+    function showPlayers(category) {
+      // Your logic to show players, e.g., Openers
+      alert("Showing players: " + category);
+    }
+  </script>
+ 
         <button onclick="showPlayers('Openers')"onclick="removePlayer('${team}', ${index})" 
         onmouseover="this.style.background='#6B8E23';" 
         onmouseout="this.style.background='blue';"
@@ -347,16 +368,37 @@ text-align: center;
             font-size: 16px; 
             border-radius: 5px; 
             cursor: pointer;">Round 4</button>
-        <button onclick="showPlayers('Spinners')" onmouseover="this.style.background='#6B8E23';" 
-        onmouseout="this.style.background='blue';"
-        style="
-            background:blue; 
-            color: white; 
-            border: none; 
-            padding: 10px 20px; 
-            font-size: 16px; 
-            border-radius: 5px; 
-            cursor: pointer;">Round 5</button>
+       <button 
+       onclick="checkPasswordAndShow()" 
+       onmouseover="this.style.background='#6B8E23';" 
+       onmouseout="this.style.background='blue';" 
+       style="
+         background:blue;
+         color: white;
+         border: none;
+         padding: 10px 20px;
+         font-size: 16px;
+         border-radius: 5px;
+         cursor: pointer;">
+       Round 5
+     </button>
+     
+     <script>
+       function checkPasswordAndShow() {
+         const password = prompt("Enter password to unlock Round 5:");
+         if (password === "77777") { // You can change "7" to your actual password
+           showPlayers('Spinners');
+         } else {
+           alert("Incorrect password. Access denied.");
+         }
+       }
+     
+       function showPlayers(category) {
+         // Your logic to show players, e.g., Openers
+         alert("Showing players: " + category);
+       }
+     </script>
+     
         <button onclick="showPlayers('FastBowlers')" onmouseover="this.style.background='#6B8E23';" 
         onmouseout="this.style.background='blue';"
         style="
