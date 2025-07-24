@@ -465,14 +465,15 @@ text-align: center;
 		<label for="teamName">Select Team:</label>
         <select id="teamName"style="font-size: 18px; padding: 5px; width: 200px;">
             <option value="">Select User</option>
-            <option value="Sujin">Sujin</option>
-            <option value="Ajin">Ajin</option>
-            <option value="Abi">Abi</option>
-            <option value="Asoke">Asoke</option>
-            <option value="Kamal">Kamal</option>
-            <option value="Anish">Anish</option>
-            <option value="DD">DD</option>
-            <option value="Raja">Raja</option>
+           
+    <option value="Karan">Karan</option>
+    <option value="Selva">Selva</option>
+    <option value="Koushik">Koushik</option>
+    <option value="Manoj">Manoj</option>
+    <option value="Avenash">Avenash</option>
+    <option value="Shanio">Shanio</option>
+    <option value="Rohit">Rohit</option>
+    <option value="Abdul">Abdul</option>
             <option value="Aswath">Aswath</option>
             <option value="Varshan">Varshan</option>
             <option value="rrk">rrk</option>
@@ -881,14 +882,14 @@ Players:[
         
 
         let teams = JSON.parse(localStorage.getItem("teams")) || {
-            "Sujin": { players: [], totalSpent: 0, remainingBudget: 150 },
-            "Ajin": { players: [], totalSpent: 0, remainingBudget: 150 },
-            "Abi": { players: [], totalSpent: 0, remainingBudget: 150 },
-            "Asoke": { players: [], totalSpent: 0, remainingBudget: 150 },
-            "Kamal": { players: [], totalSpent: 0, remainingBudget: 150 },
-            "Anish": { players: [], totalSpent: 0, remainingBudget: 150 },
-            "DD": { players: [], totalSpent: 0, remainingBudget: 150 },
-            "Raja": { players: [], totalSpent: 0, remainingBudget: 150 },
+            "Karan": { players: [], totalSpent: 0, remainingBudget: 150 },
+            "Selva": { players: [], totalSpent: 0, remainingBudget: 150 },
+            "Koushik": { players: [], totalSpent: 0, remainingBudget: 150 },
+            "Manoj": { players: [], totalSpent: 0, remainingBudget: 150 },
+            "Avenash": { players: [], totalSpent: 0, remainingBudget: 150 },
+            "Shanio": { players: [], totalSpent: 0, remainingBudget: 150 },
+            "Rohit": { players: [], totalSpent: 0, remainingBudget: 150 },
+            "Abdul": { players: [], totalSpent: 0, remainingBudget: 150 },
             "Aswath": { players: [], totalSpent: 0, remainingBudget: 150 },
             "Varshan": { players: [], totalSpent: 0, remainingBudget: 150 },
              "rrk": { players: [], totalSpent: 0, remainingBudget: 150 },
@@ -1120,7 +1121,7 @@ function showImageAlert() {
 }
 
         let totalBudget = 150;
-        let playerLimit = 18;
+        let playerLimit = 22;
         
         function setTeam() {
             const selectedTeam = document.getElementById("teamName").value;
