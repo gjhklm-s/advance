@@ -30,7 +30,7 @@
     const currentBidRef = ref(db, "auction/currentBid");
     const totalBidRef = ref(db, "auction/totalBid");
     const lastBidderRef = ref(db, "auction/lastBidder");
-     const users = ["Sujin", "Ajin","Kamal", "Abi", "Asoke",  "Anish", "DD", "Raja", "Aswath", "Varshan", "rrk", "Gokul", "Jerwin"];
+     const users = ["Karan", "Selva","Koushik", "Manoj", "Avenash",  "Shanio", "Rohit", "Abdul", "Aswath", "Varshan", "rrk", "Gokul", "Jerwin"];
 let activeTimers = {};
 let selectedUser = users[0];
 
@@ -51,7 +51,7 @@ function selectUser(user) {
 function startUserTimer(user) {
     if (activeTimers[user]) return;
 
-    let timeLeft = [5,10, 15, 20, 25,][Math.floor(Math.random() * 5)];
+    let timeLeft = [5,3, 5, 2, 5,][Math.floor(Math.random() * 5)];
     document.getElementById(`${user}-status`).textContent = `⏳ Waiting... | ${timeLeft}s`;
 
     activeTimers[user] = setInterval(() => {
@@ -405,78 +405,78 @@ window.selectUser = selectUser;
 
      <div class="bid-container">
         <!-- Users -->
-        <div id="Sujin" class="user-section">
-            <h3>Sujin: <span id="Sujin-status">✅ Ready to Bid</span></h3>
-            <div id="Sujin-buttons" class="bid-buttons">
-                <button onclick="placeBid('Sujin', 0.2)">20L</button>
-                <button onclick="placeBid('Sujin', 0.5)">50L</button>
-                <button onclick="placeBid('Sujin', 1)">1Cr</button>
-                <button onclick="placeBid('Sujin', 5)">5Cr</button>
+        <div id="Karan" class="user-section">
+            <h3>Karan: <span id="Karan-status">✅ Ready to Bid</span></h3>
+            <div id="Karan-buttons" class="bid-buttons">
+                <button onclick="placeBid('Karan', 0.2)">20L</button>
+                <button onclick="placeBid('Karan', 0.5)">50L</button>
+                <button onclick="placeBid('Karan', 1)">1Cr</button>
+                <button onclick="placeBid('Karan', 5)">5Cr</button>
             </div>
         </div>
 
-        <div id="Ajin" class="user-section">
-            <h3>Ajin: <span id="Ajin-status">✅ Ready to Bid</span></h3>
-            <div id="Ajin-buttons" class="bid-buttons">
-                <button onclick="placeBid('Ajin', 0.2)">20L</button>
-                <button onclick="placeBid('Ajin', 0.5)">50L</button>
-                <button onclick="placeBid('Ajin', 1)">1Cr</button>
-                <button onclick="placeBid('Ajin', 5)">5Cr</button>
+        <div id="Selva" class="user-section">
+            <h3>Selva: <span id="Selva-status">✅ Ready to Bid</span></h3>
+            <div id="Selva-buttons" class="bid-buttons">
+                <button onclick="placeBid('Selva', 0.2)">20L</button>
+                <button onclick="placeBid('Selva', 0.5)">50L</button>
+                <button onclick="placeBid('Selva', 1)">1Cr</button>
+                <button onclick="placeBid('Selva', 5)">5Cr</button>
             </div>
         </div>
 
-        <div id="Kamal" class="user-section">
-            <h3>Kamal: <span id="Kamal-status">✅ Ready to Bid</span></h3>
-            <div id="Kamal-buttons" class="bid-buttons">
-                <button onclick="placeBid('Kamal', 0.2)">20L</button>
-                <button onclick="placeBid('Kamal', 0.5)">50L</button>
-                <button onclick="placeBid('Kamal', 1)">1Cr</button>
-                <button onclick="placeBid('Kamal', 5)">5Cr</button>
+        <div id="Koushik" class="user-section">
+            <h3>Koushik: <span id="Koushik-status">✅ Ready to Bid</span></h3>
+            <div id="Koushik-buttons" class="bid-buttons">
+                <button onclick="placeBid('Koushik', 0.2)">20L</button>
+                <button onclick="placeBid('Koushik', 0.5)">50L</button>
+                <button onclick="placeBid('Koushik', 1)">1Cr</button>
+                <button onclick="placeBid('Koushik', 5)">5Cr</button>
             </div>
         </div>
-        <div id="Abi" class="user-section">
-            <h3>Abi: <span id="Abi-status">✅ Ready to Bid</span></h3>
-            <div id="Abi-buttons" class="bid-buttons">
-                <button onclick="placeBid('Abi', 0.2)">20L</button>
-                <button onclick="placeBid('Abi', 0.5)">50L</button>
-                <button onclick="placeBid('Abi', 1)">1Cr</button>
-                <button onclick="placeBid('Abi', 5)">5Cr</button>
+        <div id="Manoj" class="user-section">
+            <h3>Manoj: <span id="Manoj-status">✅ Ready to Bid</span></h3>
+            <div id="Manoj-buttons" class="bid-buttons">
+                <button onclick="placeBid('Manoj', 0.2)">20L</button>
+                <button onclick="placeBid('Manoj', 0.5)">50L</button>
+                <button onclick="placeBid('Manoj', 1)">1Cr</button>
+                <button onclick="placeBid('Manoj', 5)">5Cr</button>
             </div>
         </div>
-        <div id="Asoke" class="user-section">
-            <h3>Asoke: <span id="Asoke-status">✅ Ready to Bid</span></h3>
-            <div id="Asoke-buttons" class="bid-buttons">
-                <button onclick="placeBid('Asoke', 0.2)">20L</button>
-                <button onclick="placeBid('Asoke', 0.5)">50L</button>
-                <button onclick="placeBid('Asoke', 1)">1Cr</button>
-                <button onclick="placeBid('Asoke', 5)">5Cr</button>
+        <div id="Avenash" class="user-section">
+            <h3>Avenash: <span id="Avenash-status">✅ Ready to Bid</span></h3>
+            <div id="Avenash-buttons" class="bid-buttons">
+                <button onclick="placeBid('Avenash', 0.2)">20L</button>
+                <button onclick="placeBid('Avenash', 0.5)">50L</button>
+                <button onclick="placeBid('Avenash', 1)">1Cr</button>
+                <button onclick="placeBid('Avenash', 5)">5Cr</button>
             </div>
         </div>
-        <div id="Anish" class="user-section">
-            <h3>Anish: <span id="Anish-status">✅ Ready to Bid</span></h3>
-            <div id="Anish-buttons" class="bid-buttons">
-                <button onclick="placeBid('Anish', 0.2)">20L</button>
-                <button onclick="placeBid('Anish', 0.5)">50L</button>
-                <button onclick="placeBid('Anish', 1)">1Cr</button>
-                <button onclick="placeBid('Anish', 5)">5Cr</button>
+        <div id="Shanio" class="user-section">
+            <h3>Shanio: <span id="Shanio-status">✅ Ready to Bid</span></h3>
+            <div id="Shanio-buttons" class="bid-buttons">
+                <button onclick="placeBid('Shanio', 0.2)">20L</button>
+                <button onclick="placeBid('Shanio', 0.5)">50L</button>
+                <button onclick="placeBid('Shanio', 1)">1Cr</button>
+                <button onclick="placeBid('Shanio', 5)">5Cr</button>
             </div>
         </div>
-        <div id="DD" class="user-section">
-            <h3>DD: <span id="DD-status">✅ Ready to Bid</span></h3>
-            <div id="DD-buttons" class="bid-buttons">
-                <button onclick="placeBid('DD', 0.2)">20L</button>
-                <button onclick="placeBid('DD', 0.5)">50L</button>
-                <button onclick="placeBid('DD', 1)">1Cr</button>
-                <button onclick="placeBid('DD', 5)">5Cr</button>
+        <div id="Rohit" class="user-section">
+            <h3>Rohit: <span id="Rohit-status">✅ Ready to Bid</span></h3>
+            <div id="Rohit-buttons" class="bid-buttons">
+                <button onclick="placeBid('Rohit', 0.2)">20L</button>
+                <button onclick="placeBid('Rohit', 0.5)">50L</button>
+                <button onclick="placeBid('Rohit', 1)">1Cr</button>
+                <button onclick="placeBid('Rohit', 5)">5Cr</button>
             </div>
         </div>
-        <div id="Raja" class="user-section">
-            <h3>Raja: <span id="Raja-status">✅ Ready to Bid</span></h3>
-            <div id="Raja-buttons" class="bid-buttons">
-                <button onclick="placeBid('Raja', 0.2)">20L</button>
-                <button onclick="placeBid('Raja', 0.5)">50L</button>
-                <button onclick="placeBid('Raja', 1)">1Cr</button>
-                <button onclick="placeBid('Raja', 5)">5Cr</button>
+        <div id="Abdul" class="user-section">
+            <h3>Abdul: <span id="Abdul-status">✅ Ready to Bid</span></h3>
+            <div id="Abdul-buttons" class="bid-buttons">
+                <button onclick="placeBid('Abdul', 0.2)">20L</button>
+                <button onclick="placeBid('Abdul', 0.5)">50L</button>
+                <button onclick="placeBid('Abdul', 1)">1Cr</button>
+                <button onclick="placeBid('Abdul', 5)">5Cr</button>
             </div>
         </div>
           <div id="Aswath" class="user-section">
@@ -529,16 +529,17 @@ window.selectUser = selectUser;
     <div class="user-selector">
         <h3>Select Username</h3>
         <select onchange="selectUser(this.value)">
-             <option value="">Select User</option>
-            <option value="Sujin">Sujin</option>
-            <option value="Ajin">Ajin</option>
-            <option value="Kamal">Kamal</option>
-            <option value="Abi">Abi</option>
-            <option value="Asoke">Asoke</option>
+           
+             <option value="">Select</option>
+    <option value="Karan">Karan</option>
+    <option value="Selva">Selva</option>
+    <option value="Koushik">Koushik</option>
+    <option value="Manoj">Manoj</option>
+    <option value="Avenash">Avenash</option>
+    <option value="Shanio">Shanio</option>
+    <option value="Rohit">Rohit</option>
+    <option value="Abdul">Abdul</option>
             
-            <option value="Anish">Anish</option>
-            <option value="DD">DD</option>
-            <option value="Raja">Raja</option>
             <option value="Aswath">Aswath</option>
             <option value="Varshan">Varshan</option>
             <option value="rrk">rrk</option>
