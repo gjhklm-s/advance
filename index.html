@@ -175,9 +175,9 @@
       <p style="color: #fff; font-size: 3rem">Enter your name below:</p>
       <input type="text" id="userName" placeholder="Your name" />
       <br />
-      <button onclick="greetUser()">Submit</button>
+      <button onclick="greetUser()">Next</button>
       <p id="greetingMessage"></p>
-      <button onclick="goToNextPage()">Go to Rules</button>
+     
       
     </div>
 
@@ -192,6 +192,7 @@
             "greetingMessage"
           ).innerText = `Hello, ${name}! Welcome to the my Website.`;
           isSubmitted = true; // Mark as submitted
+          window.location.href = "reta.html";
         } else {
           alert("Please enter your name.");
           isSubmitted = false;
