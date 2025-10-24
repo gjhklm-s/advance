@@ -77,7 +77,7 @@
   <option value="Jerwin">Yswanth</option>
 </select>
 
-<div id="timer">Time Left: 7s</div>
+<div id="timer">Time Left: 10s</div>
 
 <form id="quizForm">
   <!-- 10 Questions -->
@@ -214,7 +214,7 @@
     if (currentIndex > 0) questions[currentIndex - 1].style.display = "none";
     if (currentIndex < questions.length) {
       questions[currentIndex].style.display = "block";
-      let timeLeft = 15;
+      let timeLeft = 10;
       timerDisplay.textContent = `Time Left: ${timeLeft}s`;
 
       timer = setInterval(() => {
@@ -274,4 +274,5 @@
 
 </body>
 </html>
+
 
