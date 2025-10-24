@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -31,7 +32,7 @@
 
     .container {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      grid-template-columns: repeat(3, 1fr);
       gap: 20px;
       max-width: 1000px;
       margin: auto;
@@ -96,10 +97,9 @@
     }
   </style>
 </head>
+
 <body>
-
 <canvas id="snow"></canvas>
-
 <h1>Welcome to Auction Rounds</h1>
 
 <div class="container">
@@ -129,14 +129,14 @@
     <h4>Find the player with the given clue.</h4>
     <button onclick="checkPassword('mm2.html', '3333')">Start</button>
   </div>
-   <div class="box">
+  <div class="box">
     <h2>Automatic Auction</h2>
     <h4>Choose the best suitable price for you before others.</h4>
     <button onclick="checkPassword('fin.html', '3333')">Start</button>
   </div>
   <div class="box">
-    <h2>Half price</h2>
-    <h4>The auctual price will be reduced to half.</h4>
+    <h2>Half Price</h2>
+    <h4>The actual price will be reduced to half.</h4>
     <button onclick="checkPassword('auto.html', '2007')">Start</button>
   </div>
   <div class="box">
@@ -144,9 +144,8 @@
     <h4>If you want, take it.</h4>
     <button onclick="checkPassword('pre.html', '2008')">Start</button>
   </div>
-</div>
-   <div class="box">
-    <h2>Gibily Art</h2>
+  <div class="box">
+    <h2>Ghibli Art</h2>
     <h4>Find the player and bid.</h4>
     <button onclick="checkPassword('gib.html', '2009')">Start</button>
   </div>
@@ -164,10 +163,9 @@
     }
   }
 
-  // ❄️ Snowfall Effect
+  // ❄ Snowfall Effect
   const canvas = document.getElementById('snow');
   const ctx = canvas.getContext('2d');
-
   let width = window.innerWidth;
   let height = window.innerHeight;
   canvas.width = width;
@@ -203,15 +201,8 @@
     for (const flake of snowflakes) {
       flake.y += flake.speed;
       flake.x += flake.drift;
-
-      if (flake.y > height) {
-        flake.y = 0;
-        flake.x = Math.random() * width;
-      }
-
-      if (flake.x > width || flake.x < 0) {
-        flake.x = Math.random() * width;
-      }
+      if (flake.y > height) flake.y = 0, flake.x = Math.random() * width;
+      if (flake.x > width || flake.x < 0) flake.x = Math.random() * width;
     }
   }
 
@@ -230,6 +221,5 @@
   createSnowflakes();
   loop();
 </script>
-
 </body>
 </html>
